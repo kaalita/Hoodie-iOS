@@ -1,7 +1,3 @@
 pod "HOOHoodie", :path => "../HOOHoodie.podspec"
 
-target "Demo" do
-end
-
-target "DemoTests" do
-end
+pod 'SVProgressHUD'
