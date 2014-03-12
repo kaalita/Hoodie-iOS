@@ -80,8 +80,13 @@ If the user signed in succesfully, Hoodie signs in the user automatically on tha
 
 ####Saving objects
 
+The Hoodie store currently only accepts NSDictionaries as objects to store.
+
+Reserved keys that are set automatically by the Hoodie store are:
+ _id, _rev, type, createdBy, createdAt, updatedAt 
+
 ```Objective-C
-    NSDictionary *newTodo = @{@"title": @"This is to do"};
+    NSDictionary *newTodo = @{@"title": @"This is a todo"};
     [self.hoodie.store saveDocument:newTodo withType:@"todo"];
 ```
 
