@@ -31,7 +31,7 @@ it simply add the following line to your Podfile:
 
 ## Documentation
 
-To get started with Hoodie-iOS, first install the Hoodie Server and create a new Hoodie app (see http://hood.ie/#installation for instructions).
+To get started with Hoodie-iOS, first install the Hoodie Server and create and start a new Hoodie app (see http://hood.ie/#installation for instructions).
 
 ####Creating a new hoodie instance
 
