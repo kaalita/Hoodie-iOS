@@ -154,11 +154,42 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     {
         if([[row.document.properties valueForKey:@"type"] isEqualToString:type])
         {
-            [resultArray addObject:row.document.properties];
+            NSDictionary *hoodieObject = [self hoodieObjectFromCouchObject:row.document.properties];
+            [resultArray addObject:hoodieObject];
         }
     }
 
     return resultArray;
+}
+
+- (NSDictionary *)hoodieObjectFromCouchObject: (NSDictionary *)couchObject
+{
+    NSMutableDictionary *hoodieObject = [[NSMutableDictionary alloc] init];
+
+    NSEnumerator *keyEnumerator = couchObject.keyEnumerator;
+    for(NSString *key in keyEnumerator)
+    {
+        if([key isEqualToString:@"_id"])
+        {
+            NSString *couchId = [couchObject valueForKey:key];
+            NSArray *couchIdComponents = [couchId componentsSeparatedByString:@"/"];
+            if([couchIdComponents count] == 2)
+            {
+                hoodieObject[@"id"] = couchIdComponents[0];
+                hoodieObject[@"type"] = couchIdComponents[1];
+            }
+            else
+            {
+                NSLog(@"HOODIE - Error creating Hoodie object from CouchDB object with _id: %@", couchId);
+            }
+        }
+        else
+        {
+            NSString *value = [couchObject valueForKey:key];
+            [hoodieObject setObject:value forKey:key];
+        }
+    }
+    return hoodieObject;
 }
 
 - (void)setRemoteStoreURL:(NSURL *)remoteStoreURL
