@@ -14,7 +14,7 @@
 #import "HOOHoodie.h"
 #import "SVProgressHUD.h"
 
-@interface PlaygroundViewController ()  <UITextFieldDelegate/*,AuthenticationDelegate*/>
+@interface PlaygroundViewController ()  <UITextFieldDelegate,AuthenticationDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *userGreeting;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
