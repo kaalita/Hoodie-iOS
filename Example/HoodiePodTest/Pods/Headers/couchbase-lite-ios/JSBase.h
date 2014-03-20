@@ -1,0 +1,1 @@
+../../couchbase-lite-ios/JavaScriptCore.framework/Headers/JSBase.h

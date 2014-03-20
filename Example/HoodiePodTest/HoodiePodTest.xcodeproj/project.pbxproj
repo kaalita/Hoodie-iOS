@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C74A7148826941A43BEC6CC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A719EB512109888F42196 /* Foundation.framework */; };
+		C74A729490BAAF3ABBC16878 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7379F5D0189A13B72B23 /* UIKit.framework */; };
+		C74A73AC6921B4AE171779C6 /* HOOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A79777D34A8F80D853839 /* HOOAppDelegate.m */; };
+		C74A742106049B5FDAE9D7D3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A7144411F8989B822D981 /* InfoPlist.strings */; };
+		C74A74578D533D0D2543C62A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7DCA82D5AA4DB04C07CF /* XCTest.framework */; };
+		C74A74A59496318DDE43E2EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A768C2E49807ABF1C1B06 /* main.m */; };
+		C74A7942553513A6573433D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A719EB512109888F42196 /* Foundation.framework */; };
+		C74A7A73D9DBFAD751F7C4C1 /* HoodiePodTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A7716E2CE9585C6F3EF46 /* HoodiePodTestTests.m */; };
+		C74A7AECB47832780E25D176 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C74A75390C74D7BB79C39D88 /* Images.xcassets */; };
+		C74A7BB704BB490F7A08C937 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A74F0176A8B32FB555288 /* CoreGraphics.framework */; };
+		C74A7D6CCD3BC46272D0C417 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7379F5D0189A13B72B23 /* UIKit.framework */; };
+		C74A7F702A6DE850100DE2AC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A728BB2A7331BAA2FA8B2 /* InfoPlist.strings */; };
+		E02F7D421387439E813DEC21 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 743828ED8ACC4777B72B57B4 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C74A75946F8A5B898E38D676 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C74A7698724FC285523C0146 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C74A7AD632A68C2EB802322D;
+			remoteInfo = HoodiePodTest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		743828ED8ACC4777B72B57B4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74A719EB512109888F42196 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C74A719F5942DCF09802F2E7 /* HoodiePodTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoodiePodTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74A7379F5D0189A13B72B23 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C74A74E9447AE562E645993E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C74A74F0176A8B32FB555288 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C74A75390C74D7BB79C39D88 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C74A75505112E42B6C25C1FA /* HoodiePodTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoodiePodTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74A768C2E49807ABF1C1B06 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C74A769CDA68F70B185AACEE /* HoodiePodTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HoodiePodTest-Prefix.pch"; sourceTree = "<group>"; };
+		C74A7716E2CE9585C6F3EF46 /* HoodiePodTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoodiePodTestTests.m; sourceTree = "<group>"; };
+		C74A79777D34A8F80D853839 /* HOOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HOOAppDelegate.m; sourceTree = "<group>"; };
+		C74A7C159157292BCCEF4127 /* HoodiePodTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "HoodiePodTestTests-Info.plist"; sourceTree = "<group>"; };
+		C74A7CF7567DAF78004A7CC1 /* HOOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HOOAppDelegate.h; sourceTree = "<group>"; };
+		C74A7DC491D035E5867086FE /* HoodiePodTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "HoodiePodTest-Info.plist"; sourceTree = "<group>"; };
+		C74A7DCA82D5AA4DB04C07CF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C74A7F65FF8CE68F7F16CA67 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D08A29F8EC414397A015E089 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C74A735B69D4DCC0038992B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A74578D533D0D2543C62A /* XCTest.framework in Frameworks */,
+				C74A7148826941A43BEC6CC0 /* Foundation.framework in Frameworks */,
+				C74A729490BAAF3ABBC16878 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C74A7A4B762E431BE2089EA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A7942553513A6573433D7 /* Foundation.framework in Frameworks */,
+				C74A7BB704BB490F7A08C937 /* CoreGraphics.framework in Frameworks */,
+				C74A7D6CCD3BC46272D0C417 /* UIKit.framework in Frameworks */,
+				E02F7D421387439E813DEC21 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C74A7211CE015E12DDACD7F9 /* HoodiePodTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				C74A7637424CB6A5D2996B26 /* Supporting Files */,
+				C74A7716E2CE9585C6F3EF46 /* HoodiePodTestTests.m */,
+			);
+			path = HoodiePodTestTests;
+			sourceTree = "<group>";
+		};
+		C74A72D3A6947292FF93F69A = {
+			isa = PBXGroup;
+			children = (
+				C74A7401877FF4AA5D6C683B /* Products */,
+				C74A73ABFC15EC03D37B5C5A /* Frameworks */,
+				C74A74EEA9920FB5BD6D1710 /* HoodiePodTest */,
+				C74A7211CE015E12DDACD7F9 /* HoodiePodTestTests */,
+				D08A29F8EC414397A015E089 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		C74A73ABFC15EC03D37B5C5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C74A719EB512109888F42196 /* Foundation.framework */,
+				C74A74F0176A8B32FB555288 /* CoreGraphics.framework */,
+				C74A7379F5D0189A13B72B23 /* UIKit.framework */,
+				C74A7DCA82D5AA4DB04C07CF /* XCTest.framework */,
+				743828ED8ACC4777B72B57B4 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C74A7401877FF4AA5D6C683B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C74A719F5942DCF09802F2E7 /* HoodiePodTest.app */,
+				C74A75505112E42B6C25C1FA /* HoodiePodTestTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C74A74EEA9920FB5BD6D1710 /* HoodiePodTest */ = {
+			isa = PBXGroup;
+			children = (
+				C74A7E49F80636108D8F8D75 /* Supporting Files */,
+				C74A7CF7567DAF78004A7CC1 /* HOOAppDelegate.h */,
+				C74A79777D34A8F80D853839 /* HOOAppDelegate.m */,
+				C74A75390C74D7BB79C39D88 /* Images.xcassets */,
+			);
+			path = HoodiePodTest;
+			sourceTree = "<group>";
+		};
+		C74A7637424CB6A5D2996B26 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C74A7C159157292BCCEF4127 /* HoodiePodTestTests-Info.plist */,
+				C74A7144411F8989B822D981 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C74A7E49F80636108D8F8D75 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C74A7DC491D035E5867086FE /* HoodiePodTest-Info.plist */,
+				C74A728BB2A7331BAA2FA8B2 /* InfoPlist.strings */,
+				C74A768C2E49807ABF1C1B06 /* main.m */,
+				C74A769CDA68F70B185AACEE /* HoodiePodTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C74A7AB22B3609EDF64C3FDD /* HoodiePodTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C74A7C8251A7E66068DCDD18 /* Build configuration list for PBXNativeTarget "HoodiePodTestTests" */;
+			buildPhases = (
+				C74A7E14F266F9241A18DA35 /* Sources */,
+				C74A735B69D4DCC0038992B5 /* Frameworks */,
+				C74A705D4AE70D7E2574A1A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C74A7C5E16FE9FD352B197CB /* PBXTargetDependency */,
+			);
+			name = HoodiePodTestTests;
+			productName = HoodiePodTestTests;
+			productReference = C74A75505112E42B6C25C1FA /* HoodiePodTestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C74A7AD632A68C2EB802322D /* HoodiePodTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C74A7200DE620159C8D6B9F7 /* Build configuration list for PBXNativeTarget "HoodiePodTest" */;
+			buildPhases = (
+				402B5DD340F34E46AC891489 /* Check Pods Manifest.lock */,
+				C74A79FB1D7BA3F938B09C9A /* Sources */,
+				C74A7A4B762E431BE2089EA6 /* Frameworks */,
+				C74A7CD8E6DC08AAC6F98801 /* Resources */,
+				F15FCD4826EC477B985218F9 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HoodiePodTest;
+			productName = HoodiePodTest;
+			productReference = C74A719F5942DCF09802F2E7 /* HoodiePodTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C74A7698724FC285523C0146 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Hoodie;
+			};
+			buildConfigurationList = C74A71336357FCDBE1E650D3 /* Build configuration list for PBXProject "HoodiePodTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C74A72D3A6947292FF93F69A;
+			productRefGroup = C74A7401877FF4AA5D6C683B /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+			);
+			projectRoot = "";
+			targets = (
+				C74A7AD632A68C2EB802322D /* HoodiePodTest */,
+				C74A7AB22B3609EDF64C3FDD /* HoodiePodTestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C74A705D4AE70D7E2574A1A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A742106049B5FDAE9D7D3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C74A7CD8E6DC08AAC6F98801 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A7F702A6DE850100DE2AC /* InfoPlist.strings in Resources */,
+				C74A7AECB47832780E25D176 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		402B5DD340F34E46AC891489 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F15FCD4826EC477B985218F9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C74A79FB1D7BA3F938B09C9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A74A59496318DDE43E2EC /* main.m in Sources */,
+				C74A73AC6921B4AE171779C6 /* HOOAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C74A7E14F266F9241A18DA35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C74A7A73D9DBFAD751F7C4C1 /* HoodiePodTestTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C74A7C5E16FE9FD352B197CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C74A7AD632A68C2EB802322D /* HoodiePodTest */;
+			targetProxy = C74A75946F8A5B898E38D676 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C74A7144411F8989B822D981 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A74E9447AE562E645993E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C74A728BB2A7331BAA2FA8B2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A7F65FF8CE68F7F16CA67 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C74A72A7AF6794C01CAAC30D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HoodiePodTest/HoodiePodTest-Prefix.pch";
+				INFOPLIST_FILE = "HoodiePodTestTests/HoodiePodTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		C74A7325BCD0F5EEB75CC474 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C74A755BA2828C2DB74E6CA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D08A29F8EC414397A015E089 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HoodiePodTest/HoodiePodTest-Prefix.pch";
+				INFOPLIST_FILE = "HoodiePodTest/HoodiePodTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C74A75A1B144026A3B66AA96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HoodiePodTest/HoodiePodTest-Prefix.pch";
+				INFOPLIST_FILE = "HoodiePodTestTests/HoodiePodTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		C74A7E7A17855D71BC595E0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D08A29F8EC414397A015E089 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HoodiePodTest/HoodiePodTest-Prefix.pch";
+				INFOPLIST_FILE = "HoodiePodTest/HoodiePodTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C74A7F52562404F6293BE381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C74A71336357FCDBE1E650D3 /* Build configuration list for PBXProject "HoodiePodTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C74A7325BCD0F5EEB75CC474 /* Release */,
+				C74A7F52562404F6293BE381 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C74A7200DE620159C8D6B9F7 /* Build configuration list for PBXNativeTarget "HoodiePodTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C74A755BA2828C2DB74E6CA1 /* Release */,
+				C74A7E7A17855D71BC595E0D /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C74A7C8251A7E66068DCDD18 /* Build configuration list for PBXNativeTarget "HoodiePodTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C74A72A7AF6794C01CAAC30D /* Release */,
+				C74A75A1B144026A3B66AA96 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C74A7698724FC285523C0146 /* Project object */;
+}

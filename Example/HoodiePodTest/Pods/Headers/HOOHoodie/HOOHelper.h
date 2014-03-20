@@ -1,0 +1,1 @@
+../../HOOHoodie/Classes/ios/HOOHelper.h
