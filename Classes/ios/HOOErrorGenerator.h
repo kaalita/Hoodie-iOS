@@ -10,6 +10,7 @@ typedef enum {
     HOOAccountSignUpUsernameTakenError = -102,
     HOOAccountUnconfirmedError = -103,
     HOOAccountSignInWrongCredentialsError = -104,
+    HOOStoreDocumentDoesNotExistError = -105
 } HOOErrorType;
 
 @interface HOOErrorGenerator : NSObject

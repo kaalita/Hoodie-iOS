@@ -7,6 +7,7 @@
 #import "CouchbaseLite.h"
 #import "HOOHelper.h"
 #import "HOOHoodie.h"
+#import "HOOErrorGenerator.h"
 
 NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
@@ -144,6 +145,34 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
+- (void)removeDocumentWithID:(NSString *)objectId
+                     andType:(NSString *)type
+                   onRemoval:(void (^)(BOOL removalSuccesful, NSError * error))onRemovalFinished
+{
+    NSString *documentId = [NSString stringWithFormat:@"%@/%@",type,objectId];
+    CBLDocument *documentToRemove = [self.database documentWithID:documentId];
+    if(!documentToRemove)
+    {
+        NSError *noDocumentError = [HOOErrorGenerator errorWithType:HOOStoreDocumentDoesNotExistError];
+        onRemovalFinished(NO, noDocumentError);
+    }
+    else
+    {
+        NSMutableDictionary *properties = [[NSMutableDictionary alloc] initWithDictionary:documentToRemove.properties];
+        properties[@"_deleted"] = [NSNumber numberWithBool:YES];
+        NSError *removalError;
+        [documentToRemove putProperties:properties error:&removalError];
+        if(!removalError)
+        {
+            onRemovalFinished(YES, nil);
+        }
+        else
+        {
+            onRemovalFinished(NO, removalError);
+        }
+    }
+}
+
 - (NSArray *)findAllByType:(NSString *)type
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
@@ -175,8 +204,8 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
             NSArray *couchIdComponents = [couchId componentsSeparatedByString:@"/"];
             if([couchIdComponents count] == 2)
             {
-                hoodieObject[@"id"] = couchIdComponents[0];
-                hoodieObject[@"type"] = couchIdComponents[1];
+                hoodieObject[@"id"] = couchIdComponents[1];
+                hoodieObject[@"type"] = couchIdComponents[0];
             }
             else
             {

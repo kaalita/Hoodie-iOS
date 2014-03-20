@@ -55,6 +55,16 @@
 
         }
             break;
+            
+        case HOOStoreDocumentDoesNotExistError:
+        {
+            errorDomain =  @"hoodie.store";
+            errorDescription =  NSLocalizedString(@"Document does not exist", nil);
+            errorFailureReason =  NSLocalizedString(@"A document with the given id and type does not exist.", nil);
+            errorRecoverySuggestion = NSLocalizedString(@"Please make sure the given id and type are correct.", nil);
+            
+        }
+            break;
     }
 
     NSDictionary *userInfo = @{

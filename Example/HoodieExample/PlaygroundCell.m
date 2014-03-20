@@ -22,6 +22,7 @@
 
 - (void)configureForTodoItem:(NSDictionary *)dictionary
 {
+    self.todoItem = dictionary;
     self.label.text = [dictionary valueForKey:@"title"];
 }
 @end

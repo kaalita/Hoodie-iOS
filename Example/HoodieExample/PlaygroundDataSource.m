@@ -52,4 +52,25 @@
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSDictionary *todoItem = [self itemAtIndexPath:indexPath];
+        [self.store removeDocumentWithID:todoItem[@"id"]
+                                 andType:todoItem[@"type"]
+                               onRemoval:^(BOOL removalSuccesful, NSError *error) {
+                                   if(error)
+                                   {
+                                       NSLog(@"Error deleting document: %@",[error localizedDescription]);
+                                   }
+        }];
+    }
+}
+
 @end

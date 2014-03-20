@@ -10,7 +10,7 @@
 
 @interface PlaygroundCell : UITableViewCell
 
-
+@property (strong, nonatomic) NSDictionary *todoItem;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
 + (UINib *)nib;

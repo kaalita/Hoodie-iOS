@@ -17,6 +17,10 @@ extern NSString* const HOOStoreChangeNotification;
 
 - (void)saveDocument:(NSDictionary *)dictionary withType:(NSString *)type;
 
+- (void)removeDocumentWithID: (NSString *)objectId
+                     andType: (NSString *)type
+                   onRemoval: (void (^)(BOOL removalSuccesful, NSError * error))onRemovalFinished;
+
 - (NSArray *)findAllByType: (NSString *) type;
 
 - (void)clearLocalData;

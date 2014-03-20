@@ -14,7 +14,7 @@
 #import "HOOHoodie.h"
 #import "SVProgressHUD.h"
 
-@interface PlaygroundViewController ()  <UITextFieldDelegate,AuthenticationDelegate>
+@interface PlaygroundViewController ()  <UITableViewDelegate,UITextFieldDelegate,AuthenticationDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *userGreeting;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -59,14 +59,14 @@
 {
     [super viewDidLoad];
     [self.tableView registerNib:[PlaygroundCell nib] forCellReuseIdentifier:[PlaygroundCell cellIdentifier]];
-    self.tableView.dataSource =  self.dataSource;
+    self.tableView.dataSource = self.dataSource;
 
     self.navigationItem.title = @"Hoodie";
 
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
 
     [self.hoodie.account automaticallySignInExistingUser:^(BOOL existingUser, NSError *error) {
-
+        
         [SVProgressHUD dismiss];
         [self updateSignInStateDependentElements];
     }];
