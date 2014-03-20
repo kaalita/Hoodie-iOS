@@ -5,24 +5,22 @@
 
 #import "HOOHelper.h"
 
-
 @implementation HOOHelper
 
 + (NSString *)generateHoodieId
 {
-    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    NSString *uuidString = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
-    CFRelease(uuid);
-
-    // Hoodie Id must fulfill these criteria:
-    // - all lowercase
-    // - must begin with a character
-
-    uuidString = [uuidString lowercaseString];
-    NSString *randomStartLetter = [NSString stringWithFormat:@"%c", arc4random_uniform(26) + 'a'];
-    NSString *hoodieId = [uuidString stringByReplacingCharactersInRange:NSMakeRange(0, 1)
-                                                             withString:randomStartLetter];
-
+    int hoodieIdLength = 7;
+    NSString *alphabet  = @"0123456789abcdefghijklmnopqrstuvwxyz";
+    int alphabetLength = [alphabet length];
+    
+    NSMutableString *hoodieId = [NSMutableString stringWithCapacity:hoodieIdLength];
+    for (NSUInteger i = 0U; i < hoodieIdLength; i++)
+    {
+        u_int32_t r = arc4random() % alphabetLength;
+        unichar c = [alphabet characterAtIndex:r];
+        [hoodieId appendFormat:@"%C", c];
+    }
+    NSLog(@"hoodie id: %@", hoodieId);
     return hoodieId;
 }
 
