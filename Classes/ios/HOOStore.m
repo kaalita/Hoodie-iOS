@@ -85,7 +85,17 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 - (void)databaseChanged:(NSNotification *)notification
 {
     NSNotificationCenter*notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter postNotificationName:HOOStoreChangeNotification object:nil];
+    
+    if(![NSThread isMainThread])
+    {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [notificationCenter postNotificationName:HOOStoreChangeNotification object:nil];
+        });
+    }
+    else
+    {
+        [notificationCenter postNotificationName:HOOStoreChangeNotification object:nil];
+    }
 }
 
 -(void) subscribeToDatabaseChangeNotification
@@ -108,31 +118,18 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
 #pragma mark -  Public methods
 
-- (void)saveDocument:(NSDictionary *)dictionary withType:(NSString *)type
+- (void)saveObject:(NSDictionary *)object
+          withType:(NSString *)type
 {
     CBLDocument *documentToSave;
-    NSMutableDictionary *properties = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+    NSMutableDictionary *properties = [[NSMutableDictionary alloc] initWithDictionary:object];
 
     NSString *jsonStringOfCurrentDate = [CBLJSON JSONObjectWithDate:[NSDate new]];
 
-    // The document already exists
-    if ([dictionary valueForKey:@"_id"])
-    {
-        documentToSave = [self.database documentWithID:[dictionary valueForKey:@"_id"]];
-        [properties setObject:[documentToSave valueForKey:@"createdBy"] forKey:@"createdBy"];
-        [properties setObject:[documentToSave valueForKey:@"createdAt"] forKey:@"createdAt"];
-
-        // ??
-        [properties setObject:[documentToSave valueForKey:@"_rev"] forKey:@"_rev"];
-    }
-    else
-    {
-        NSString *newDocumentId = [NSString stringWithFormat:@"%@/%@",type,[HOOHelper generateHoodieId]];
-        documentToSave = [self.database documentWithID:newDocumentId];
-        [properties setObject:self.hoodie.hoodieId forKey:@"createdBy"];
-        [properties setObject:jsonStringOfCurrentDate forKey:@"createdAt"];
-    }
-
+    NSString *couchDocumentId = [self couchDocumentIdWithId:[HOOHelper generateHoodieId] andType:type];
+    documentToSave = [self.database documentWithID:couchDocumentId];
+    [properties setObject:self.hoodie.hoodieId forKey:@"createdBy"];
+    [properties setObject:jsonStringOfCurrentDate forKey:@"createdAt"];
     [properties setObject:type forKey:@"type"];
     [properties setObject:jsonStringOfCurrentDate forKey:@"updatedAt"];
 
@@ -145,12 +142,44 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
-- (void)removeDocumentWithID:(NSString *)objectId
-                     andType:(NSString *)type
-                   onRemoval:(void (^)(BOOL removalSuccesful, NSError * error))onRemovalFinished
+- (void)updateObjectWithId:(NSString *)objectId
+                   andType:(NSString *)type
+            withProperties:(NSDictionary *)properties
+                  onUpdate:(void (^)(BOOL updateSuccessful, NSError * error))onUpdateFinished
 {
-    NSString *documentId = [NSString stringWithFormat:@"%@/%@",type,objectId];
-    CBLDocument *documentToRemove = [self.database documentWithID:documentId];
+    NSString *couchId = [self couchDocumentIdWithId:objectId andType:type];
+    CBLDocument *documentToUpdate = [self.database existingDocumentWithID:couchId];
+    
+    if(documentToUpdate)
+    {
+        NSMutableDictionary *documentProperties = [[NSMutableDictionary alloc] initWithDictionary: documentToUpdate.properties];
+        [documentProperties addEntriesFromDictionary:properties];
+        documentProperties[@"updatedAt"] = [CBLJSON JSONObjectWithDate:[NSDate new]];
+
+        NSError *error;
+        [documentToUpdate putProperties:documentProperties error:&error];
+        if(error)
+        {
+            onUpdateFinished(NO, error);
+        }
+        else
+        {
+            onUpdateFinished(YES, nil);
+        }
+    }
+    else
+    {
+        NSError *noDocumentError = [HOOErrorGenerator errorWithType:HOOStoreDocumentDoesNotExistError];
+        onUpdateFinished(NO, noDocumentError);
+    }
+}
+
+- (void)removeObjectWithID:(NSString *)objectId
+                   andType:(NSString *)type
+                 onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished
+{
+    NSString *couchDocumentId = [self couchDocumentIdWithId:objectId andType:type];
+    CBLDocument *documentToRemove = [self.database documentWithID:couchDocumentId];
     if(!documentToRemove)
     {
         NSError *noDocumentError = [HOOErrorGenerator errorWithType:HOOStoreDocumentDoesNotExistError];
@@ -173,7 +202,21 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
-- (NSArray *)findAllByType:(NSString *)type
+- (NSDictionary *)findObjectWithId: (NSString *) objectId andType: (NSString *)type
+{
+    NSString *couchDocumentId = [self couchDocumentIdWithId:objectId andType:type];
+    
+    CBLDocument *document = [self.database existingDocumentWithID:couchDocumentId];
+    if(document)
+    {
+        NSDictionary *hoodieObject = [self hoodieObjectFromCouchObject:document.properties];
+        return hoodieObject;
+    }
+    
+    return nil;
+}
+
+- (NSArray *)findAllObjectsWithType:(NSString *)type
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
 
@@ -240,5 +283,13 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     [self tearDownDatabase];
     [self setupDatabase];
 }
+
+# pragma mark - Helper methods
+
+- (NSString *)couchDocumentIdWithId:(NSString *)objectId andType:(NSString *)type
+{
+    return [NSString stringWithFormat:@"%@/%@",type,objectId];
+}
+
 
 @end

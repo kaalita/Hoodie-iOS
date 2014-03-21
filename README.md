@@ -13,6 +13,8 @@ Currently supported functionality:
 - Sign in
 - Sign out
 - Saving new objects
+- Removing objects
+-  Updating objects
 - Retrieving all saved objects of the user by type
 - Replication to and from user database on the server
 
@@ -87,7 +89,16 @@ Reserved keys that are set automatically by the Hoodie store are:
 
 ```Objective-C
     NSDictionary *newTodo = @{@"title": @"This is a todo"};
-    [self.hoodie.store saveDocument:newTodo withType:@"todo"];
+    [self.hoodie.store saveObject:newTodo withType:@"todo"];
+```
+
+####Remove object
+
+```Objective-C
+ [self.store removeObjectWithID:todoItem[@"id"]
+										   andType:todoItem[@"type"]                                                                                                                                  
+									  onRemoval:^(BOOLremovalSuccessful,NSError*error) {
+}];
 ```
 
 ####Retrieving objects

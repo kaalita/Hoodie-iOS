@@ -15,14 +15,30 @@ extern NSString* const HOOStoreChangeNotification;
 
 - (id)initWithHoodie: (HOOHoodie *) hoodie;
 
-- (void)saveDocument:(NSDictionary *)dictionary withType:(NSString *)type;
+- (void)saveObject:(NSDictionary *)object
+          withType:(NSString *)type;
 
-- (void)removeDocumentWithID: (NSString *)objectId
-                     andType: (NSString *)type
-                   onRemoval: (void (^)(BOOL removalSuccesful, NSError * error))onRemovalFinished;
+- (void)updateObjectWithId:(NSString *)objectId
+                   andType:(NSString *)type
+            withProperties:(NSDictionary *)properties
+                  onUpdate:(void (^)(BOOL updateSuccessful, NSError * error))onUpdateFinished;
 
-- (NSArray *)findAllByType: (NSString *) type;
+
+- (void)removeObjectWithID:(NSString *)objectId
+                   andType:(NSString *)type
+                 onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished;
 
 - (void)clearLocalData;
+
+// Finding objects
+
+- (NSDictionary *)findObjectWithId:(NSString *)objectId
+                           andType:(NSString *)type;
+
+- (NSArray *)findAllObjectsWithType:(NSString *)type;
+
+
+
+
 
 @end

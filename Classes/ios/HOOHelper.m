@@ -20,7 +20,6 @@
         unichar c = [alphabet characterAtIndex:r];
         [hoodieId appendFormat:@"%C", c];
     }
-    NSLog(@"hoodie id: %@", hoodieId);
     return hoodieId;
 }
 

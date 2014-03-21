@@ -139,7 +139,7 @@
         else
         {
             NSDictionary *newTodo = @{@"title": textField.text};
-            [self.hoodie.store saveDocument:newTodo withType:@"todo"];
+            [self.hoodie.store saveObject:newTodo withType:@"todo"];
             
             [textField resignFirstResponder];
             textField.text = @"";
@@ -151,7 +151,7 @@
         PlaygroundCell *cell = (PlaygroundCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         [self.hoodie.store updateObjectWithId:cell.todoItem[@"id"]
                                       andType:cell.todoItem[@"type"]
-                               withProperties:@{@"title": textField.text} onUpdate:^(BOOL updateSuccesful, NSError *error) {
+                               withProperties:@{@"title": textField.text} onUpdate:^(BOOL updateSuccessful, NSError *error) {
                                    
                                    [textField resignFirstResponder];
                                    [cell showEditingMode:NO];

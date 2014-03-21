@@ -62,14 +62,13 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         NSDictionary *todoItem = [self itemAtIndexPath:indexPath];
-        [self.store removeDocumentWithID:todoItem[@"id"]
-                                 andType:todoItem[@"type"]
-                               onRemoval:^(BOOL removalSuccesful, NSError *error) {
-                                   if(error)
-                                   {
-                                       NSLog(@"Error deleting document: %@",[error localizedDescription]);
-                                   }
-        }];
+        [self.store removeObjectWithID:todoItem[@"id"]
+                               andType:todoItem[@"type"]
+                             onRemoval:^(BOOL removalSuccessful, NSError *error) {
+                                 if (error) {
+                                     NSLog(@"Error deleting document: %@", [error localizedDescription]);
+                                 }
+                             }];
     }
 }
 
