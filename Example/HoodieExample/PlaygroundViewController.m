@@ -52,6 +52,7 @@
 
 - (void) storeChanged: (NSNotification *)notification
 {
+
     [self.tableView reloadData];
 }
 
@@ -114,18 +115,63 @@
     }];
 }
 
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PlaygroundCell *selectedCell = (PlaygroundCell *) [self.tableView cellForRowAtIndexPath:indexPath];
+    [selectedCell showEditingMode:YES];
+    selectedCell.textField.tag = indexPath.row;
+    selectedCell.textField.delegate = self;
+    [selectedCell.textField becomeFirstResponder];
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSDictionary *newTodo = @{@"title": textField.text};
-    [self.hoodie.store saveDocument:newTodo withType:@"todo"];
-
-    [textField resignFirstResponder];
-    textField.text = @"";
+    if(textField == self.inputField)
+    {
+        if([textField.text isEqualToString:@""])
+        {
+            [textField resignFirstResponder];
+        }
+        else
+        {
+            NSDictionary *newTodo = @{@"title": textField.text};
+            [self.hoodie.store saveDocument:newTodo withType:@"todo"];
+            
+            [textField resignFirstResponder];
+            textField.text = @"";
+        }
+    }
+    else
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
+        PlaygroundCell *cell = (PlaygroundCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [self.hoodie.store updateObjectWithId:cell.todoItem[@"id"]
+                                      andType:cell.todoItem[@"type"]
+                               withProperties:@{@"title": textField.text} onUpdate:^(BOOL updateSuccesful, NSError *error) {
+                                   
+                                   [textField resignFirstResponder];
+                                   [cell showEditingMode:NO];
+                                   if(error)
+                                   {
+                                       NSLog(@"Error updating object: %@", [error localizedDescription]);
+                                   }
+                               }];
+    }
 
     return YES;
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
+    PlaygroundCell *cell = (PlaygroundCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell showEditingMode:NO];
+}
+
 
 #pragma mark - AuthenticationDelegate
 

@@ -33,14 +33,14 @@
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.store findAllByType:@"todo"][(NSUInteger) indexPath.row];
+    return [self.store findAllObjectsWithType:@"todo"][(NSUInteger) indexPath.row];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.store findAllByType:@"todo"].count;
+    return [self.store findAllObjectsWithType:@"todo"].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

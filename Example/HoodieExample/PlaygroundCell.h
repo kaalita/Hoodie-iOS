@@ -11,11 +11,14 @@
 @interface PlaygroundCell : UITableViewCell
 
 @property (strong, nonatomic) NSDictionary *todoItem;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
 + (UINib *)nib;
 + (NSString *)cellIdentifier;
 
 - (void)configureForTodoItem:(NSDictionary *)dictionary;
+
+- (void)showEditingMode: (BOOL) editing;
 
 @end
