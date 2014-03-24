@@ -15,7 +15,7 @@ NSString * const HOOKeyForHoodieId = @"HoodieId";
     self = [super init];
     if (self)
     {
-        self.baseURL = baseURL;
+        self.baseURL = [self removeTrailingSlashFromURL:baseURL];
         
         NSString *savedHoodieId = [self savedHoodieId];
         if(savedHoodieId)
@@ -60,6 +60,21 @@ NSString * const HOOKeyForHoodieId = @"HoodieId";
 {
     _hoodieId = hoodieId;
     [self saveHoodieId];
+}
+
+- (NSURL *)removeTrailingSlashFromURL: (NSURL *) url
+{
+    NSString *urlString = url.absoluteString;
+    
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"/+$"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSString *modifiedString = [regex stringByReplacingMatchesInString:urlString
+                                                               options:0
+                                                                 range:NSMakeRange(0, [urlString length])
+                                                          withTemplate:@""];    
+    return [NSURL URLWithString:modifiedString];
 }
 
 @end
