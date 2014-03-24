@@ -71,9 +71,10 @@
                   password:(NSString *)password
                   onSignUp:(void (^)(BOOL signUpSuccessful, NSError *error))onSignUpFinished
 {
-    if(!username)
+    if(!username || [username isEqualToString:@""])
     {
         onSignUpFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountSignUpUsernameEmptyError]);
+        return;
     }
 
     if(!password)
@@ -104,7 +105,7 @@
                   parameters:userDictionary
                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-                        // Sign in user after sign up
+                         // Sign in user after sign up
                          [self delayedSignInWithUsername:username
                                                 password:password
                                          numberOfRetries:10

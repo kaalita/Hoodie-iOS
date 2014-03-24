@@ -72,6 +72,12 @@
 #define COCOAPODS_VERSION_MINOR_Kiwi_XCTest 2
 #define COCOAPODS_VERSION_PATCH_Kiwi_XCTest 4
 
+// OHHTTPStubs
+#define COCOAPODS_POD_AVAILABLE_OHHTTPStubs
+#define COCOAPODS_VERSION_MAJOR_OHHTTPStubs 3
+#define COCOAPODS_VERSION_MINOR_OHHTTPStubs 1
+#define COCOAPODS_VERSION_PATCH_OHHTTPStubs 0
+
 // couchbase-lite-ios
 #define COCOAPODS_POD_AVAILABLE_couchbase_lite_ios
 // This library does not follow semantic-versioning,

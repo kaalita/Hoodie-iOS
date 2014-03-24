@@ -1,0 +1,5 @@
+{
+    id = "org.couchdb.user:user/joe";
+    ok = 1;
+    rev = "1-87d8074612b4b17c20b850dbe80edad3";
+}
