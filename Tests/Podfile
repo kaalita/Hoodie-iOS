@@ -1,0 +1,6 @@
+platform :ios, :deployment_target => '6.0'
+
+target :iOS_Tests, :exclusive => true do
+  pod 'Kiwi/XCTest'
+  pod "HOOHoodie", :path => "../HOOHoodie.podspec"
+end
