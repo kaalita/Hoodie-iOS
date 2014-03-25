@@ -13,6 +13,8 @@
 		296B901C18E04DBD00F57E46 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 296B901A18E04DBD00F57E46 /* InfoPlist.strings */; };
 		296B901E18E04DBD00F57E46 /* HOOHoodieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */; };
 		296B902418E05D2200F57E46 /* HOOAccountTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 296B902318E05D2200F57E46 /* HOOAccountTests.m */; };
+		296B902618E0944700F57E46 /* Stub01-NewUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 296B902518E0944700F57E46 /* Stub01-NewUserSuccess.json */; };
+		296B902818E09A4C00F57E46 /* Stub02-SignInSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 296B902718E09A4C00F57E46 /* Stub02-SignInSuccess.json */; };
 		C57AF73C668849868EC5A555 /* libPods-iOS_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5274D208CF7458390B737C0 /* libPods-iOS_Tests.a */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,8 @@
 		296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HOOHoodieTests.m; sourceTree = "<group>"; };
 		296B901F18E04DBD00F57E46 /* iOS_Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS_Tests-Prefix.pch"; sourceTree = "<group>"; };
 		296B902318E05D2200F57E46 /* HOOAccountTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOAccountTests.m; sourceTree = "<group>"; };
+		296B902518E0944700F57E46 /* Stub01-NewUserSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Stub01-NewUserSuccess.json"; sourceTree = "<group>"; };
+		296B902718E09A4C00F57E46 /* Stub02-SignInSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Stub02-SignInSuccess.json"; sourceTree = "<group>"; };
 		CB53928DAE0348F4AAD076EB /* Pods-iOS_Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Tests.xcconfig"; path = "Pods/Pods-iOS_Tests.xcconfig"; sourceTree = "<group>"; };
 		F5274D208CF7458390B737C0 /* libPods-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -79,6 +83,8 @@
 			children = (
 				296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */,
 				296B902318E05D2200F57E46 /* HOOAccountTests.m */,
+				296B902518E0944700F57E46 /* Stub01-NewUserSuccess.json */,
+				296B902718E09A4C00F57E46 /* Stub02-SignInSuccess.json */,
 				296B901818E04DBD00F57E46 /* Supporting Files */,
 			);
 			path = iOS_Tests;
@@ -146,7 +152,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				296B902618E0944700F57E46 /* Stub01-NewUserSuccess.json in Resources */,
 				296B901C18E04DBD00F57E46 /* InfoPlist.strings in Resources */,
+				296B902818E09A4C00F57E46 /* Stub02-SignInSuccess.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
