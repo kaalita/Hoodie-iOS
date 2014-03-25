@@ -120,6 +120,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
 - (void)saveObject:(NSDictionary *)object
           withType:(NSString *)type
+            onSave:(void (^)(NSDictionary *object, NSError * error))onSaveFinished
 {
     CBLDocument *documentToSave;
     NSMutableDictionary *properties = [[NSMutableDictionary alloc] initWithDictionary:object];
@@ -138,7 +139,12 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
     if(saveDocumentError)
     {
-        NSLog(@"Error saving document: %@", [saveDocumentError localizedDescription]);
+        onSaveFinished(nil,saveDocumentError);
+    }
+    else
+    {
+        NSDictionary *savedHoodieObject = [self hoodieObjectFromCouchObject: documentToSave.properties];
+        onSaveFinished(savedHoodieObject, nil);
     }
 }
 

@@ -139,8 +139,15 @@
         else
         {
             NSDictionary *newTodo = @{@"title": textField.text};
-            [self.hoodie.store saveObject:newTodo withType:@"todo"];
-            
+            [self.hoodie.store saveObject:newTodo
+                                 withType:@"todo"
+                                   onSave:^(NSDictionary *object, NSError *error) {
+                                        if(error)
+                                        {
+                                            NSLog(@"Error saving object: %@", error);
+                                        }
+            }];
+
             [textField resignFirstResponder];
             textField.text = @"";
         }

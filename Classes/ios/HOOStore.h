@@ -16,7 +16,12 @@ extern NSString* const HOOStoreChangeNotification;
 - (id)initWithHoodie: (HOOHoodie *) hoodie;
 
 - (void)saveObject:(NSDictionary *)object
-          withType:(NSString *)type;
+          withType:(NSString *)type
+            onSave:(void (^)(NSDictionary *object, NSError * error))onSaveFinished;
+
+// Save
+// Update
+// SaveOrUpdate
 
 - (void)updateObjectWithId:(NSString *)objectId
                    andType:(NSString *)type
