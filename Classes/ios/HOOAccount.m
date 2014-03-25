@@ -92,14 +92,14 @@
             @"database": [self userDatabaseName],
             @"roles": @[],
             @"password": password,
-            @"hoodieId": self.hoodie.hoodieId,
+            @"hoodieId": self.hoodie.hoodieID,
             @"updatedAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
             @"createdAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
             @"signedUpAt": [CBLJSON JSONObjectWithDate: [NSDate new]]
     };
 
-    NSString *escapedUserId = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserId];
+    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
 
     [self.requestManager PUT:pathToUser
                   parameters:userDictionary
@@ -162,7 +162,7 @@
                               [[NSURLCredentialStorage sharedCredentialStorage] setCredential:accountCredentials
                                                                            forProtectionSpace:self.remoteDatabaseProtectionSpace];
 
-                              self.hoodie.hoodieId = roles[0];
+                              self.hoodie.hoodieID = roles[0];
                               self.username = username;
 
                               [self setAccountDatabase];
@@ -193,7 +193,7 @@
 
                             [self.hoodie.store clearLocalData];
                             [self clearCredentials];
-                            self.hoodie.hoodieId = [HOOHelper generateHoodieId];
+                            self.hoodie.hoodieID = [HOOHelper generateHoodieID];
                             self.authenticated = NO;
                             onSignOutFinished(YES, nil);
 
@@ -205,7 +205,7 @@
                         }];
 }
 
-- (void) clearCredentials
+- (void)clearCredentials
 {
     NSURLCredential *credential;
     NSDictionary *credentials;
@@ -272,14 +272,14 @@
 
 #pragma mark - Helper methods
 
-- (NSString *)hoodiePrefixUsername: (NSString *) username
+- (NSString *)hoodiePrefixUsername:(NSString *)username
 {
     return [NSString stringWithFormat:@"user/%@",username];
 }
 
 - (NSString *)userDatabaseName
 {
-    return  [NSString stringWithFormat:@"user/%@",self.hoodie.hoodieId];
+    return  [NSString stringWithFormat:@"user/%@",self.hoodie.hoodieID];
 }
 
 - (void)setAccountDatabase

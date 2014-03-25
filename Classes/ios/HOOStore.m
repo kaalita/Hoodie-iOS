@@ -24,7 +24,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
 @implementation HOOStore
 
-- (id)initWithHoodie: (HOOHoodie *) hoodie
+- (id)initWithHoodie:(HOOHoodie *) hoodie
 {
     self = [super init];
     if(self)
@@ -127,9 +127,9 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
     NSString *jsonStringOfCurrentDate = [CBLJSON JSONObjectWithDate:[NSDate new]];
 
-    NSString *couchDocumentId = [self couchDocumentIdWithId:[HOOHelper generateHoodieId] andType:type];
-    documentToSave = [self.database documentWithID:couchDocumentId];
-    [properties setObject:self.hoodie.hoodieId forKey:@"createdBy"];
+    NSString *couchDocumentID = [self couchDocumentIdWithID:[HOOHelper generateHoodieID] andType:type];
+    documentToSave = [self.database documentWithID:couchDocumentID];
+    [properties setObject:self.hoodie.hoodieID forKey:@"createdBy"];
     [properties setObject:jsonStringOfCurrentDate forKey:@"createdAt"];
     [properties setObject:type forKey:@"type"];
     [properties setObject:jsonStringOfCurrentDate forKey:@"updatedAt"];
@@ -148,13 +148,13 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
-- (void)updateObjectWithId:(NSString *)objectId
+- (void)updateObjectWithID:(NSString *)objectID
                    andType:(NSString *)type
             withProperties:(NSDictionary *)properties
                   onUpdate:(void (^)(NSDictionary *, NSError *))onUpdateFinished
 {
-    NSString *couchId = [self couchDocumentIdWithId:objectId andType:type];
-    CBLDocument *documentToUpdate = [self.database existingDocumentWithID:couchId];
+    NSString *couchID = [self couchDocumentIdWithID:objectID andType:type];
+    CBLDocument *documentToUpdate = [self.database existingDocumentWithID:couchID];
     
     if(documentToUpdate)
     {
@@ -181,12 +181,12 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
-- (void)removeObjectWithID:(NSString *)objectId
+- (void)removeObjectWithID:(NSString *)objectID
                    andType:(NSString *)type
                  onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished
 {
-    NSString *couchDocumentId = [self couchDocumentIdWithId:objectId andType:type];
-    CBLDocument *documentToRemove = [self.database documentWithID:couchDocumentId];
+    NSString *couchDocumentID = [self couchDocumentIdWithID:objectID andType:type];
+    CBLDocument *documentToRemove = [self.database documentWithID:couchDocumentID];
     if(!documentToRemove)
     {
         NSError *noDocumentError = [HOOErrorGenerator errorWithType:HOOStoreDocumentDoesNotExistError];
@@ -209,11 +209,11 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     }
 }
 
-- (NSDictionary *)findObjectWithId: (NSString *) objectId andType: (NSString *)type
+- (NSDictionary *)findObjectWithID:(NSString *)objectID andType: (NSString *)type
 {
-    NSString *couchDocumentId = [self couchDocumentIdWithId:objectId andType:type];
+    NSString *couchDocumentID = [self couchDocumentIdWithID:objectID andType:type];
     
-    CBLDocument *document = [self.database existingDocumentWithID:couchDocumentId];
+    CBLDocument *document = [self.database existingDocumentWithID:couchDocumentID];
     if(document)
     {
         NSDictionary *hoodieObject = [self hoodieObjectFromCouchObject:document.properties];
@@ -241,7 +241,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     return resultArray;
 }
 
-- (NSDictionary *)hoodieObjectFromCouchObject: (NSDictionary *)couchObject
+- (NSDictionary *)hoodieObjectFromCouchObject:(NSDictionary *)couchObject
 {
     NSMutableDictionary *hoodieObject = [[NSMutableDictionary alloc] init];
 
@@ -250,16 +250,16 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     {
         if([key isEqualToString:@"_id"])
         {
-            NSString *couchId = [couchObject valueForKey:key];
-            NSArray *couchIdComponents = [couchId componentsSeparatedByString:@"/"];
-            if([couchIdComponents count] == 2)
+            NSString *couchID = [couchObject valueForKey:key];
+            NSArray *couchIDComponents = [couchID componentsSeparatedByString:@"/"];
+            if([couchIDComponents count] == 2)
             {
-                hoodieObject[@"id"] = couchIdComponents[1];
-                hoodieObject[@"type"] = couchIdComponents[0];
+                hoodieObject[@"id"] = couchIDComponents[1];
+                hoodieObject[@"type"] = couchIDComponents[0];
             }
             else
             {
-                NSLog(@"HOODIE - Error creating Hoodie object from CouchDB object with _id: %@", couchId);
+                NSLog(@"HOODIE - Error creating Hoodie object from CouchDB object with _id: %@", couchID);
             }
         }
         else
@@ -293,9 +293,9 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
 # pragma mark - Helper methods
 
-- (NSString *)couchDocumentIdWithId:(NSString *)objectId andType:(NSString *)type
+- (NSString *)couchDocumentIdWithID:(NSString *)objectID andType:(NSString *)type
 {
-    return [NSString stringWithFormat:@"%@/%@",type,objectId];
+    return [NSString stringWithFormat:@"%@/%@",type,objectID];
 }
 
 

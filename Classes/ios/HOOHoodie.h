@@ -9,7 +9,7 @@
 
 @interface HOOHoodie : NSObject
 
-@property(nonatomic, strong) NSString *hoodieId;
+@property(nonatomic, strong) NSString *hoodieID;
 @property(nonatomic, strong) NSURL *baseURL;
 @property(nonatomic, strong) HOOStore *store;
 @property(nonatomic, strong) HOOAccount *account;

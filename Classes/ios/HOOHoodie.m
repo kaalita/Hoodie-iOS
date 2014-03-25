@@ -6,7 +6,7 @@
 #import "HOOHoodie.h"
 #import "HOOHelper.h"
 
-NSString * const HOOKeyForHoodieId = @"HoodieId";
+NSString * const HOOKeyForHoodieID = @"HoodieID";
 
 @implementation HOOHoodie
 
@@ -17,14 +17,14 @@ NSString * const HOOKeyForHoodieId = @"HoodieId";
     {
         self.baseURL = [self removeTrailingSlashFromURL:baseURL];
         
-        NSString *savedHoodieId = [self savedHoodieId];
-        if(savedHoodieId)
+        NSString *savedHoodieID = [self savedHoodieID];
+        if(savedHoodieID)
         {
-            self.hoodieId = savedHoodieId;
+            self.hoodieID = savedHoodieID;
         }
         else
         {
-            self.hoodieId = [HOOHelper generateHoodieId];
+            self.hoodieID = [HOOHelper generateHoodieID];
         }
         
         self.store = [[HOOStore alloc] initWithHoodie:self];
@@ -34,32 +34,32 @@ NSString * const HOOKeyForHoodieId = @"HoodieId";
     return self;
 }
 
-- (NSString *)savedHoodieId
+- (NSString *)savedHoodieID
 {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * savedHoodieId = [userDefaults stringForKey: HOOKeyForHoodieId];
-    return savedHoodieId;
+    NSString * savedHoodieID = [userDefaults stringForKey: HOOKeyForHoodieID];
+    return savedHoodieID;
 }
 
-- (void)saveHoodieId
+- (void)saveHoodieID
 {
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     
-    if(self.hoodieId)
+    if(self.hoodieID)
     {
-        [userDefaults setObject:self.hoodieId forKey:HOOKeyForHoodieId];
+        [userDefaults setObject:self.hoodieID forKey:HOOKeyForHoodieID];
     }
     else
     {
-        [userDefaults removeObjectForKey:HOOKeyForHoodieId];
+        [userDefaults removeObjectForKey:HOOKeyForHoodieID];
     }
     [userDefaults synchronize];
 }
 
-- (void)setHoodieId:(NSString *)hoodieId
+- (void)setHoodieID:(NSString *)hoodieID
 {
-    _hoodieId = hoodieId;
-    [self saveHoodieId];
+    _hoodieID = hoodieID;
+    [self saveHoodieID];
 }
 
 - (NSURL *)removeTrailingSlashFromURL: (NSURL *) url

@@ -13,18 +13,18 @@ extern NSString* const HOOStoreChangeNotification;
 
 @property (nonatomic, strong) NSURL *remoteStoreURL;
 
-- (id)initWithHoodie: (HOOHoodie *) hoodie;
+- (id)initWithHoodie:(HOOHoodie *) hoodie;
 
 - (void)saveObject:(NSDictionary *)object
           withType:(NSString *)type
             onSave:(void (^)(NSDictionary *savedObject, NSError * error))onSaveFinished;
 
-- (void)updateObjectWithId:(NSString *)objectId
+- (void)updateObjectWithID:(NSString *)objectID
                    andType:(NSString *)type
             withProperties:(NSDictionary *)properties
                   onUpdate:(void (^)(NSDictionary *updatedObject, NSError * error))onUpdateFinished;
 
-- (void)removeObjectWithID:(NSString *)objectId
+- (void)removeObjectWithID:(NSString *)objectID
                    andType:(NSString *)type
                  onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished;
 
@@ -32,7 +32,7 @@ extern NSString* const HOOStoreChangeNotification;
 
 // Finding objects
 
-- (NSDictionary *)findObjectWithId:(NSString *)objectId
+- (NSDictionary *)findObjectWithID:(NSString *)objectID
                            andType:(NSString *)type;
 
 - (NSArray *)findAllObjectsWithType:(NSString *)type;

@@ -8,6 +8,6 @@
 
 @interface HOOHelper : NSObject
 
-+ (NSString *) generateHoodieId;
++ (NSString *) generateHoodieID;
 
 @end
