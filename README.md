@@ -90,8 +90,8 @@ Reserved keys that are set automatically by the Hoodie store are:
 ```Objective-C
     NSDictionary *newTodo = @{@"title": @"This is a todo"};
     [self.hoodie.store saveObject:newTodo 
-                                         withType:@"todo"
-                                            onSave:^(NSDictionary *object, NSError *error) {
+                         withType:@"todo"
+                           onSave:^(NSDictionary *object, NSError *error) {
     }];
 ```
 
@@ -99,8 +99,7 @@ Reserved keys that are set automatically by the Hoodie store are:
 
 ```Objective-C
  [self.store removeObjectWithID:todoItem[@"id"]
-										   andType:todoItem[@"type"]                                                                                                                                  
- 									  onRemoval:^(BOOLremovalSuccessful,NSError*error) {
+                        andType:todoItem[@"type"]                                                                                           onRemoval:^(BOOLremovalSuccessful,NSError*error) {
 }];
 ```
 
