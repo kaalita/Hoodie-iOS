@@ -156,7 +156,7 @@
     {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
         PlaygroundCell *cell = (PlaygroundCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        [self.hoodie.store updateObjectWithId:cell.todoItem[@"id"]
+        [self.hoodie.store updateObjectWithID:cell.todoItem[@"id"]
                                       andType:cell.todoItem[@"type"]
                                withProperties:@{@"title": textField.text}
                                      onUpdate:^(NSDictionary *updatedObject, NSError *error) {
