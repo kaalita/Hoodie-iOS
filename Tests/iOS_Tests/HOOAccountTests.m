@@ -43,7 +43,7 @@ describe(@"HOOAccount", ^{
     
     HOOHoodie *hoodie = [HOOHoodie mock];
     [hoodie stub:@selector(baseURL) andReturn: [NSURL URLWithString: baseURL]];
-    [hoodie stub:@selector(hoodieId) andReturn:@"uuid123"];
+    [hoodie stub:@selector(hoodieID) andReturn:@"uuid123"];
     [hoodie stub:@selector(store) andReturn:[HOOStore mock]];
     
     HOOAccount *account = [[HOOAccount alloc] initWithHoodie:hoodie];
