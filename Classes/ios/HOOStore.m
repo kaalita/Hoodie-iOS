@@ -151,7 +151,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 - (void)updateObjectWithId:(NSString *)objectId
                    andType:(NSString *)type
             withProperties:(NSDictionary *)properties
-                  onUpdate:(void (^)(BOOL updateSuccessful, NSError * error))onUpdateFinished
+                  onUpdate:(void (^)(NSDictionary *, NSError *))onUpdateFinished
 {
     NSString *couchId = [self couchDocumentIdWithId:objectId andType:type];
     CBLDocument *documentToUpdate = [self.database existingDocumentWithID:couchId];
@@ -166,11 +166,12 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
         [documentToUpdate putProperties:documentProperties error:&error];
         if(error)
         {
-            onUpdateFinished(NO, error);
+            onUpdateFinished(nil, error);
         }
         else
         {
-            onUpdateFinished(YES, nil);
+            NSDictionary *updatedHoodieObject = [self hoodieObjectFromCouchObject: documentToUpdate.properties];
+            onUpdateFinished(updatedHoodieObject, nil);
         }
     }
     else

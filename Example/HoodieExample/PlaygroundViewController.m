@@ -141,7 +141,7 @@
             NSDictionary *newTodo = @{@"title": textField.text};
             [self.hoodie.store saveObject:newTodo
                                  withType:@"todo"
-                                   onSave:^(NSDictionary *object, NSError *error) {
+                                   onSave:^(NSDictionary *savedObject, NSError *error) {
                                         if(error)
                                         {
                                             NSLog(@"Error saving object: %@", error);
@@ -158,15 +158,16 @@
         PlaygroundCell *cell = (PlaygroundCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         [self.hoodie.store updateObjectWithId:cell.todoItem[@"id"]
                                       andType:cell.todoItem[@"type"]
-                               withProperties:@{@"title": textField.text} onUpdate:^(BOOL updateSuccessful, NSError *error) {
-                                   
-                                   [textField resignFirstResponder];
-                                   [cell showEditingMode:NO];
-                                   if(error)
-                                   {
-                                       NSLog(@"Error updating object: %@", [error localizedDescription]);
-                                   }
-                               }];
+                               withProperties:@{@"title": textField.text}
+                                     onUpdate:^(NSDictionary *updatedObject, NSError *error) {
+                                  
+                                         [textField resignFirstResponder];
+                                         [cell showEditingMode:NO];
+                                         if(error)
+                                         {
+                                             NSLog(@"Error updating object: %@", [error localizedDescription]);
+                                         }
+        }];
     }
 
     return YES;

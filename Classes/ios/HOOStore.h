@@ -17,17 +17,12 @@ extern NSString* const HOOStoreChangeNotification;
 
 - (void)saveObject:(NSDictionary *)object
           withType:(NSString *)type
-            onSave:(void (^)(NSDictionary *object, NSError * error))onSaveFinished;
-
-// Save
-// Update
-// SaveOrUpdate
+            onSave:(void (^)(NSDictionary *savedObject, NSError * error))onSaveFinished;
 
 - (void)updateObjectWithId:(NSString *)objectId
                    andType:(NSString *)type
             withProperties:(NSDictionary *)properties
-                  onUpdate:(void (^)(BOOL updateSuccessful, NSError * error))onUpdateFinished;
-
+                  onUpdate:(void (^)(NSDictionary *updatedObject, NSError * error))onUpdateFinished;
 
 - (void)removeObjectWithID:(NSString *)objectId
                    andType:(NSString *)type
