@@ -2,6 +2,7 @@
 
 [![Version](http://cocoapod-badges.herokuapp.com/v/HOOHoodie/badge.png)](http://cocoadocs.org/docsets/HOOHoodie)
 [![Platform](http://cocoapod-badges.herokuapp.com/p/HOOHoodie/badge.png)](http://cocoadocs.org/docsets/HOOHoodie)
+[![Build Status](https://travis-ci.org/kaalita/Hoodie-iOS.svg?branch=v0.2.0)](https://travis-ci.org/kaalita/Hoodie-iOS)
 
 Hoodie-iOS is a library which connects to the Hoodie backend API.
 (See http://hood.ie/ for more information on Hoodie)
