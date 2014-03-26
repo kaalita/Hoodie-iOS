@@ -104,9 +104,12 @@
     [self.requestManager PUT:pathToUser
                   parameters:userDictionary
                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                         
+                         NSString *couchUserID = responseObject[@"id"];
+                         NSString *returnedUsername = [couchUserID componentsSeparatedByString:@"/"][1];
 
                          // Sign in user after sign up
-                         [self delayedSignInWithUsername:username
+                         [self delayedSignInWithUsername:returnedUsername
                                                 password:password
                                          numberOfRetries:10
                                          onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
@@ -141,7 +144,6 @@
 
     [self.requestManager POST:[NSString stringWithFormat:@"%@/_session", self.hoodie.baseURL]
                    parameters:requestOptions
-
                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
                           NSArray *roles = [responseObject valueForKey:@"roles"];
