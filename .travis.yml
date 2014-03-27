@@ -1,5 +1,8 @@
 language: objective-c
-before_script: Travis/before_script.sh
+before_script: 
+  - brew update
+  - brew unlink xctool
+  - brew install -v --HEAD xctool
 script:
   - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES test
   - xctool test -workspace Example/HoodieExample.xcworkspace -scheme HoodieExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES
