@@ -1,5 +1,5 @@
 language: objective-c
 
 script:
-  - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES
+  - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES test
   - xctool test -workspace Example/HoodieExample.xcworkspace -scheme HoodieExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES

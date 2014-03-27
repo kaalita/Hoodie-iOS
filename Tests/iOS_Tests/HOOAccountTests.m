@@ -58,9 +58,8 @@ describe(@"HOOAccount", ^{
                     NSDictionary *requestBody = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
                                                                                 options:0
                                                                                   error:&error];
-                    NSLog(@"%@",requestBody);
+                    
                     NSString *username = [requestBody[@"name"] componentsSeparatedByString:@"/"][1];
-                    NSLog(@"sign in user %@",username);
                     
                     NSDictionary *responseDictionary = @{@"name":[NSString stringWithFormat:@"user/%@",username],
                                                          @"roles":@[@"hash123",@"confirmed"]};

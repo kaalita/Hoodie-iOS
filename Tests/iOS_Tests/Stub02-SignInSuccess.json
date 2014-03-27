@@ -1,4 +1,0 @@
-{
-    name: "user/joe",
-    roles: ["hash123", "confirmed"]
-};
