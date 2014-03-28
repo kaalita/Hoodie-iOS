@@ -47,9 +47,50 @@ describe(@"HOOAccount", ^{
                 _error = error;
             }];
             
-            [[expectFutureValue(@(_signUpSuccessful)) shouldEventually] equal:@(0)];
+            [[expectFutureValue(@(_signUpSuccessful)) shouldEventually] beFalse];
             [[expectFutureValue(@(_error.code)) shouldEventually] equal:@(HOOAccountSignUpUsernameEmptyError)];
         });
+        
+        
+        it(@"should send a PUT request to /_api/_users/org.couchdb.user:user/$username", ^{
+            
+            __block NSString *path;
+            __block NSString *method;
+            __block NSString *contentType;
+            __block NSDictionary *body;
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                path = request.URL.path;
+                method = request.HTTPMethod;
+                contentType = [request allHTTPHeaderFields][@"Content-type"];
+                
+                NSError *error;
+                body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
+                                                       options:0
+                                                         error:&error];
+                return nil;
+            }];
+            
+            [account signUpUserWithName:@"randomusername"
+                               password:@"secret"
+                               onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+                               }];
+            
+            [[expectFutureValue(path) shouldEventually] equal:@"/_api/_users/org.couchdb.user:user/randomusername"];
+            [[expectFutureValue(method) shouldEventually] equal:@"PUT"];
+            
+            NSUInteger locationOfJSONContentType = [contentType rangeOfString:@"application/json"].location;
+            [[expectFutureValue(@(locationOfJSONContentType)) shouldNotEventually] equal:@(NSNotFound)];
+            
+            [[expectFutureValue(body[@"name"]) shouldEventually] equal:@"user/randomusername"];
+            [[expectFutureValue(body[@"password"]) shouldEventually] equal:@"secret"];
+            [[expectFutureValue(body[@"type"]) shouldEventually] equal:@"user"];
+        });
+        
         
         it(@"should lowercase the username", ^{
             
@@ -157,7 +198,7 @@ describe(@"HOOAccount", ^{
                                    _signUpError = error;
                                }];
             
-            [[expectFutureValue(@(_signUpSuccessful)) shouldEventually] equal:@(0)];
+            [[expectFutureValue(@(_signUpSuccessful)) shouldEventually] beFalse];
             [[expectFutureValue(@(_signUpError.code)) shouldEventually] equal:@(HOOAccountSignUpUsernameTakenError)];
         });
     });
