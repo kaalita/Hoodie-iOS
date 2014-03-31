@@ -109,6 +109,10 @@ Reserved keys that are set automatically by the Hoodie store are:
 ```Objective-C
     NSArray *myTodos = [self.store findAllByType:@"todo"];
 ```
+## Source
+
+The source code is available o Github:
+https://github.com/kaalita/Hoodie-iOS
 
 ## Author
 
