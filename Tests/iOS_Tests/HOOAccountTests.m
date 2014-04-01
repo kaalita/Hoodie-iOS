@@ -31,7 +31,11 @@ describe(@"HOOAccount", ^{
     
     beforeEach(^{
         account = [[HOOAccount alloc] initWithHoodie:hoodie];
+        [OHHTTPStubs removeAllStubs];
     });
+    
+    
+#pragma mark - Sign up
     
     context(@"signup with username and password", ^{
         
@@ -202,7 +206,173 @@ describe(@"HOOAccount", ^{
             [[expectFutureValue(@(_signUpError.code)) shouldEventually] equal:@(HOOAccountSignUpUsernameTakenError)];
         });
     });
+    
+#pragma mark - Sign in
+    
+    context(@"sign in with username and password", ^{
+        
+        it(@"should send a POST request to /_api/_session", ^{
+            
+            __block NSString *path;
+            __block NSString *method;
+            __block NSDictionary *body;
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                path = request.URL.path;
+                method = request.HTTPMethod;
+                
+                NSError *error;
+                body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
+                                                       options:0
+                                                         error:&error];
+                return nil;
+            }];
+            
+            
+            [account signInUserWithName:@"joe@example.com"
+                               password:@"secret"
+                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+            }];
+            
+            [[expectFutureValue(path) shouldEventually] equal:@"/_api/_session"];
+            [[expectFutureValue(method) shouldEventually] equal:@"POST"];
+            [[expectFutureValue(body[@"name"]) shouldEventually] equal:@"user/joe@example.com"];
+            [[expectFutureValue(body[@"password"]) shouldEventually] equal:@"secret"];
+        });
+    });
+    
+    context(@"sign in successful and account is confirmed", ^{
+        
+        it(@"should call onSignIn(YES, nil)", ^{
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                if([request.URL.path isEqualToString:@"/_api/_session"])
+                {
+                    NSDictionary * response = @{
+                                                @"ok": @(YES),
+                                                @"name'": @"user/joe@example.com",
+                                                @"roles": @[@"hash123",@"confirmed"]
+                                                };
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+                }
+                
+                return nil;
+            }];
 
+            
+            __block BOOL _signInSuccessful;
+            __block NSError *_error = nil;
+            
+            [account signInUserWithName:@"joe@example.com"
+                               password:@"secret"
+                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                   
+                                   _signInSuccessful = signInSuccessful;
+                                   _error = error;
+                               }];
+            
+            
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventually] beTrue];
+            [[expectFutureValue(_error) shouldEventually] beNil];
+        });
+        
+    });
+    
+    
+    context(@"sign in successful, but account not confirmed", ^{
+        
+        it(@"should reject with unconfirmed error", ^{
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                NSDictionary *response = @{
+                                           @"ok": @(YES),
+                                           @"name": @"user/joe@example.com",
+                                           @"roles": @[]
+                                           };
+                
+                NSError *error;
+                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                    options:NSJSONWritingPrettyPrinted
+                                                                      error:&error];
+                
+                return [OHHTTPStubsResponse responseWithData:jsonData
+                                                  statusCode:200
+                                                     headers:@{@"Content-Type":@"text/json"}];
+            }];
+            
+            __block NSError *_signInError;
+            __block BOOL _signInSuccessful;
+            
+            [account signInUserWithName:@"joe@example.com"
+                               password:@"secret"
+                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                   _signInSuccessful = signInSuccessful;
+                                   _signInError = error;
+                               }];
+            
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventually] beFalse];
+            [[expectFutureValue(@(_signInError.code)) shouldEventually] equal:@(HOOAccountUnconfirmedError)];
+        });
+    });
+
+    context(@"sign in not successful", ^{
+        
+        it(@"should reject with unauthorized error", ^{
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                NSDictionary *response = @{
+                                           @"error": @"unauthorized",
+                                           @"reason": @"Name or password is incorrect."
+                                           };
+                
+                NSError *error;
+                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                    options:NSJSONWritingPrettyPrinted
+                                                                      error:&error];
+                
+                return [OHHTTPStubsResponse responseWithData:jsonData
+                                                  statusCode:401
+                                                     headers:@{@"Content-Type":@"text/json"}];
+            }];
+            
+            __block NSError *_signInError;
+            __block BOOL _signInSuccessful;
+            
+            [account signInUserWithName:@"joe@example.com"
+                               password:@"secret"
+                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                   _signInSuccessful = signInSuccessful;
+                                   _signInError = error;
+                               }];
+            
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventually] beFalse];
+            [[expectFutureValue(@(_signInError.code)) shouldEventually] equal:@(HOOAccountSignInWrongCredentialsError)];
+        });
+
+    });    
   });
 
 SPEC_END
