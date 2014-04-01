@@ -96,6 +96,15 @@ Reserved keys that are set automatically by the Hoodie store are:
     }];
 ```
 
+####Update existing object
+
+```Objective-C
+ [self.store updateObjectWithID:todoItem[@"id"]
+                        andType:todoItem[@"type"]      
+                        withProperties:@{@"title": textField.text}                                                                                     onUpdate:^(NSDictionary *updatedObject, NSError *error) {
+}];
+```
+
 ####Remove object
 
 ```Objective-C
