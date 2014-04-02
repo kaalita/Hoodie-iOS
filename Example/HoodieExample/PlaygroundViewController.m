@@ -11,10 +11,11 @@
 #import "PlaygroundDataSource.h"
 #import "HOOStore.h"
 #import "SignInViewController.h"
+#import "ChangePasswordViewController.h"
 #import "HOOHoodie.h"
 #import "SVProgressHUD.h"
 
-@interface PlaygroundViewController ()  <UITableViewDelegate,UITextFieldDelegate,AuthenticationDelegate>
+@interface PlaygroundViewController ()  <UITableViewDelegate,UITextFieldDelegate,AuthenticationDelegate,AccountDelegate,UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *userGreeting;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -77,10 +78,10 @@
 {
     if(self.hoodie.account.authenticated)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign out"
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Account"
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
-                                                                                 action:@selector(signOut)];
+                                                                                 action:@selector(showAccountOptions)];
 
         self.userGreeting.text = [NSString stringWithFormat:@"%@ %@",
                                                             NSLocalizedString(@"Hello", nil),
@@ -95,6 +96,42 @@
 
         self.userGreeting.text = NSLocalizedString(@"Not signed in", nil);
     }
+}
+
+- (void)showAccountOptions
+{
+    UIActionSheet *accountOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"Your account"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Cancel"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Change password", @"Sign out",nil];
+    
+    [accountOptionsSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0)
+    {
+        [self changePassword];
+    }
+    
+    if(buttonIndex == 1)
+    {
+        [self signOut];
+    }
+}
+
+-(void)changePassword
+{
+    ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] initWithAccount:self.hoodie.account];
+    changePasswordViewController.delegate = self;
+    
+    UINavigationController *changePasswordNavigationController = [[UINavigationController alloc] initWithRootViewController:changePasswordViewController];
+    [self presentViewController:changePasswordNavigationController animated:YES completion:^{
+        
+    }];
+
 }
 
 - (void)signIn
@@ -196,5 +233,14 @@
         [self updateSignInStateDependentElements];
     }];
 }
+
+#pragma mark - AccountDelegate
+
+- (void)didChangePassword
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
 
 @end

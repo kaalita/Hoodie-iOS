@@ -272,6 +272,57 @@
     }
 }
 
+- (void)changeOldPassword: (NSString *) oldPassword
+            toNewPassword: (NSString *) newPassword
+         onPasswordChange: (void (^)(BOOL passwordChangeSuccessful, NSError * error))onPasswordChangeFinished
+{
+ 
+    if(!newPassword)
+    {
+        newPassword = @"";
+    }
+    
+    [self fetchUserDocumentOnFinished:^(NSDictionary *userDocument, NSError *error) {
+       
+        NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
+        NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
+        
+        NSMutableDictionary *newUserDocument = [[NSMutableDictionary alloc] initWithDictionary:userDocument];
+        
+        newUserDocument[@"password"] = newPassword;
+        newUserDocument[@"updatedAt"] = [CBLJSON JSONObjectWithDate: [NSDate new]];
+        [newUserDocument removeObjectsForKeys:@[@"salt", @"password_sha"]];
+        
+        NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+        NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
+        
+        [self.requestManager PUT:pathToUser
+                      parameters:newUserDocument
+                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                             
+                             [self signInUserWithName:self.username
+                                             password:newPassword
+                                             onSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                                 
+                                                 if(signInSuccessful)
+                                                 {
+                                                     onPasswordChangeFinished(YES,nil);
+                                                 }
+                                                 else
+                                                 {
+                                                     onPasswordChangeFinished(NO,error);
+                                                 }
+                                             }];
+                         }
+                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                             
+                             onPasswordChangeFinished(NO, error);
+                         }
+         ];
+    }];
+}
+
+
 #pragma mark - Helper methods
 
 - (NSString *)hoodiePrefixUsername:(NSString *)username
@@ -289,6 +340,25 @@
     NSString *userDatabaseNameURLEncoded = [[self userDatabaseName] stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
     NSString *userDatabaseURL = [NSString stringWithFormat:@"%@/%@",self.hoodie.baseURL,userDatabaseNameURLEncoded];
     self.hoodie.store.remoteStoreURL = [NSURL URLWithString:userDatabaseURL];
+}
+
+- (void)fetchUserDocumentOnFinished:(void (^)(NSDictionary *userDocument, NSError *error))onFinished
+{
+    NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
+    NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
+    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
+    
+    [self.requestManager GET:pathToUser
+                  parameters:nil
+                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                         
+                         onFinished(operation.responseObject,nil);
+                         
+                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         
+                         onFinished(nil, error);
+    }];
 }
 
 @end

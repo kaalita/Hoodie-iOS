@@ -56,7 +56,7 @@ describe(@"HOOAccount", ^{
         });
         
         
-        it(@"should send a PUT request to /_api/_users/org.couchdb.user:user/$username", ^{
+        it(@"should make correct Hoodie API request", ^{
             
             __block NSString *path;
             __block NSString *method;
@@ -211,7 +211,7 @@ describe(@"HOOAccount", ^{
     
     context(@"sign in with username and password", ^{
         
-        it(@"should send a POST request to /_api/_session", ^{
+        it(@"should make correct Hoodie API request", ^{
             
             __block NSString *path;
             __block NSString *method;
@@ -371,8 +371,193 @@ describe(@"HOOAccount", ^{
             [[expectFutureValue(@(_signInSuccessful)) shouldEventually] beFalse];
             [[expectFutureValue(@(_signInError.code)) shouldEventually] equal:@(HOOAccountSignInWrongCredentialsError)];
         });
+    });
 
-    });    
+#pragma mark - Change password
+    
+    context(@"change password", ^{
+        
+        it(@"should make correct Hoodie API request", ^{
+            
+            __block NSString *path;
+            __block NSString *method;
+            __block NSDictionary *body;
+            
+            [account stub:@selector(username) andReturn:@"joe@example.com"];
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                path = request.URL.path;
+                method = request.HTTPMethod;
+                
+                NSError *error;
+                body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
+                                                       options:0
+                                                         error:&error];
+                return nil;
+            }];
+            
+            [account changeOldPassword:@"secret"
+                         toNewPassword:@"newSecret"
+                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+                          
+                      }];
+            
+            [[expectFutureValue(path) shouldEventually] equal:@"/_api/_users/org.couchdb.user:user/joe@example.com"];
+            [[expectFutureValue(method) shouldEventually] equal:@"PUT"];
+            [[expectFutureValue(body[@"_id"]) shouldEventually] equal:@"org.couchdb.user:user/joe@example.com"];
+            [[expectFutureValue(body[@"name"]) shouldEventually] equal:@"user/joe@example.com"];
+            [[expectFutureValue(body[@"type"]) shouldEventually] equal:@"user"];
+            [[expectFutureValue(body[@"password"]) shouldEventually] equal:@"newSecret"];
+            [[expectFutureValue(body[@"updatedAt"]) shouldEventually] beNonNil];
+            [[expectFutureValue(body[@"createdAt"]) shouldEventually] beNil];
+            [[expectFutureValue(body[@"salt"]) shouldEventually] beNil];
+            [[expectFutureValue(body[@"password_sha"]) shouldEventually] beNil];
+        });
+    });
+    
+    context(@"change password successful", ^{
+        
+        it(@"should sign in user", ^{
+            
+            [account stub:@selector(username) andReturn:@"joe@example.com"];
+
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                    NSDictionary *response = @{
+                                               @"ok": @"true",
+                                               @"id": @"org.couchdb.user:user/joe@example.com",
+                                               @"rev": @"2-345"
+                                               };
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+            }];
+            
+            [account changeOldPassword:@"secret"
+                         toNewPassword:@"newSecret"
+                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+            }];
+            
+            [[[account shouldEventually] receive] signInUserWithName:@"joe@example.com"
+                                                            password:@"newSecret"
+                                                            onSignIn:any()];
+        });
+    });
+    
+    context(@"change password and sign in successful", ^{
+        
+        it(@"should return onPasswordChangeFinished(YES,nil)",^{
+            
+            [account stub:@selector(username) andReturn:@"joe@example.com"];
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                if([request.URL.path isEqualToString:@"/_api/_users/org.couchdb.user:user/joe@example.com"])
+                {
+                    NSDictionary *response = @{
+                                               @"ok": @"true",
+                                               @"id": @"org.couchdb.user:user/joe@example.com",
+                                               @"rev": @"2-345"
+                                               };
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+                }
+                else
+                {
+                    NSDictionary * response = @{
+                                                @"ok": @(YES),
+                                                @"name'": @"user/joe@example.com",
+                                                @"roles": @[@"hash123",@"confirmed"]
+                                                };
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+                }
+            }];
+            
+            __block BOOL _passwordChangeSuccessful = NO;
+            __block NSError *_error;
+            
+            [account changeOldPassword:@"secret"
+                         toNewPassword:@"newSecret"
+                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+                          
+                          _passwordChangeSuccessful = passwordChangeSuccessful;
+                          _error = error;
+                      }];
+            
+            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventually] beTrue];
+            [[expectFutureValue(_error) shouldEventually] beNil];
+        });
+    });
+
+    context(@"change password not successful", ^{
+        
+        it(@"should return with error", ^{
+            
+            
+            [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+                return YES;
+                
+            } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+                
+                NSDictionary *response = @{
+                                           @"name": @"HoodieError",
+                                           @"message": @"Something wrong"
+                                           };
+                
+                NSError *error;
+                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                    options:NSJSONWritingPrettyPrinted
+                                                                      error:&error];
+                
+                return [OHHTTPStubsResponse responseWithData:jsonData
+                                                  statusCode:409
+                                                     headers:@{@"Content-Type":@"text/json"}];
+            }];
+            
+            
+            __block BOOL _passwordChangeSuccessful;
+            __block NSError *_error;
+            
+            [account changeOldPassword:@"secret"
+                         toNewPassword:@"newSecret"
+                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+                          
+                          _passwordChangeSuccessful = passwordChangeSuccessful;
+                          _error = error;
+                      }];
+            
+            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventually] beFalse];
+            [[expectFutureValue(_error) shouldEventually] beNonNil];
+        });
+    });
   });
 
 SPEC_END
