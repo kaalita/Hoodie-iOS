@@ -34,6 +34,28 @@ describe(@"HOOAccount", ^{
         [OHHTTPStubs removeAllStubs];
     });
     
+    NSDictionary *confirmedUserDocument = @{
+                                            @"_id": @"org.couchdb.user:user/joe@example.com",
+                                            @"_rev": @"1-abc",
+                                            @"createdAt": @"someday",
+                                            @"database": @"user/uuid123",
+                                            @"derived_key": @"derived key",
+                                            @"hoodieId": @"uuid123",
+                                            @"iterations": @(10),
+                                            @"name": @"user/joe@example.com",
+                                            @"password_scheme": @"pbkdf2",
+                                            @"roles": @[ @"uuid123",
+                                                         @"confirmed",
+                                                         @"hoodie:read:user/uuid123",
+                                                         @"hoodie:write:user/uuid123"
+                                                         ],
+                                            @"salt": @"salt",
+                                            @"signedUpAt": @"someday",
+                                            @"type": @"user",
+                                            @"updatedAt": @"someday"
+                                            };
+
+    
     
 #pragma mark - Sign up
     
@@ -390,14 +412,29 @@ describe(@"HOOAccount", ^{
                 
             } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
                 
-                path = request.URL.path;
-                method = request.HTTPMethod;
-                
-                NSError *error;
-                body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
-                                                       options:0
-                                                         error:&error];
-                return nil;
+                if([request.HTTPMethod isEqualToString:@"GET"])
+                {
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:confirmedUserDocument
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+                }
+                else
+                {
+                    path = request.URL.path;
+                    method = request.HTTPMethod;
+                    
+                    NSError *error;
+                    body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
+                                                           options:0
+                                                             error:&error];
+                    return nil;
+   
+                }
             }];
             
             [account changeOldPassword:@"secret"
@@ -413,12 +450,11 @@ describe(@"HOOAccount", ^{
             [[expectFutureValue(body[@"type"]) shouldEventually] equal:@"user"];
             [[expectFutureValue(body[@"password"]) shouldEventually] equal:@"newSecret"];
             [[expectFutureValue(body[@"updatedAt"]) shouldEventually] beNonNil];
-            [[expectFutureValue(body[@"createdAt"]) shouldEventually] beNil];
             [[expectFutureValue(body[@"salt"]) shouldEventually] beNil];
             [[expectFutureValue(body[@"password_sha"]) shouldEventually] beNil];
         });
     });
-    
+
     context(@"change password successful", ^{
         
         it(@"should sign in user", ^{
@@ -430,6 +466,19 @@ describe(@"HOOAccount", ^{
                 
             } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
                 
+                if([request.HTTPMethod isEqualToString:@"GET"])
+                {
+                    NSError *error;
+                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:confirmedUserDocument
+                                                                        options:NSJSONWritingPrettyPrinted
+                                                                          error:&error];
+                    
+                    return [OHHTTPStubsResponse responseWithData:jsonData
+                                                      statusCode:200
+                                                         headers:@{@"Content-Type":@"text/json"}];
+                }
+                else
+                {
                     NSDictionary *response = @{
                                                @"ok": @"true",
                                                @"id": @"org.couchdb.user:user/joe@example.com",
@@ -443,6 +492,7 @@ describe(@"HOOAccount", ^{
                     return [OHHTTPStubsResponse responseWithData:jsonData
                                                       statusCode:200
                                                          headers:@{@"Content-Type":@"text/json"}];
+                }
             }];
             
             [account changeOldPassword:@"secret"
@@ -469,19 +519,35 @@ describe(@"HOOAccount", ^{
                 
                 if([request.URL.path isEqualToString:@"/_api/_users/org.couchdb.user:user/joe@example.com"])
                 {
-                    NSDictionary *response = @{
-                                               @"ok": @"true",
-                                               @"id": @"org.couchdb.user:user/joe@example.com",
-                                               @"rev": @"2-345"
-                                               };
-                    NSError *error;
-                    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
-                                                                        options:NSJSONWritingPrettyPrinted
-                                                                          error:&error];
-                    
-                    return [OHHTTPStubsResponse responseWithData:jsonData
-                                                      statusCode:200
-                                                         headers:@{@"Content-Type":@"text/json"}];
+                    if([request.HTTPMethod isEqualToString:@"GET"])
+                    {
+                        NSError *error;
+                        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:confirmedUserDocument
+                                                                            options:NSJSONWritingPrettyPrinted
+                                                                              error:&error];
+                        
+                        return [OHHTTPStubsResponse responseWithData:jsonData
+                                                          statusCode:200
+                                                             headers:@{@"Content-Type":@"text/json"}];
+                    }
+                    else
+                    {
+                        NSDictionary *response = @{
+                                                   @"ok": @"true",
+                                                   @"id": @"org.couchdb.user:user/joe@example.com",
+                                                   @"rev": @"2-345"
+                                                   };
+                        NSError *error;
+                        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:response
+                                                                            options:NSJSONWritingPrettyPrinted
+                                                                              error:&error];
+                        
+                        return [OHHTTPStubsResponse responseWithData:jsonData
+                                                          statusCode:200
+                                                             headers:@{@"Content-Type":@"text/json"}];
+                        
+
+                    }
                 }
                 else
                 {
@@ -520,7 +586,6 @@ describe(@"HOOAccount", ^{
     context(@"change password not successful", ^{
         
         it(@"should return with error", ^{
-            
             
             [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 return YES;
