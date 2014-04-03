@@ -13,9 +13,10 @@ Currently supported functionality:
 - Sign up
 - Sign in
 - Sign out
+- Change password of account
 - Saving new objects
 - Removing objects
--  Updating objects
+- Updating objects
 - Retrieving all saved objects of the user by type
 - Replication to and from user database on the server
 
@@ -79,6 +80,16 @@ If the user signed in succesfully, Hoodie signs in the user automatically on tha
     [self.hoodie.account signOutOnFinished:^(BOOL signOutSuccessful, NSError *error) {
         [self updateSignInStateDependentElements];
     }];
+```
+
+####Change password of existing user
+
+```Objective-C
+    [self.hoodie.account changeOldPassword:self.currentPasswordInputField.text
+                             toNewPassword:self.passwordInputField.text
+                          onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+                          }];
+
 ```
 
 ####Saving objects
