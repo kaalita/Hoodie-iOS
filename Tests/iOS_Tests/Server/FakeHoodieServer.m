@@ -35,10 +35,15 @@ typedef enum {
             
         } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
             
-            NSError *jsonParseError;
-            NSDictionary *body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
-                                                                 options:0
-                                                                   error:&jsonParseError];
+            NSDictionary *body;
+            
+            if([request HTTPBody])
+            {
+                NSError *jsonParseError;
+                body = [NSJSONSerialization JSONObjectWithData:[request HTTPBody]
+                                                       options:0
+                                                         error:&jsonParseError];
+            }
             
             switch ([self typeOfRequest:request])
             {

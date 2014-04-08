@@ -13,6 +13,7 @@
 		296B901C18E04DBD00F57E46 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 296B901A18E04DBD00F57E46 /* InfoPlist.strings */; };
 		296B901E18E04DBD00F57E46 /* HOOHoodieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */; };
 		296B902418E05D2200F57E46 /* HOOAccountTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 296B902318E05D2200F57E46 /* HOOAccountTests.m */; };
+		29DE615E18F3004A00F35442 /* FakeHoodieServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DE615D18F3004A00F35442 /* FakeHoodieServer.m */; };
 		C57AF73C668849868EC5A555 /* libPods-iOS_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5274D208CF7458390B737C0 /* libPods-iOS_Tests.a */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,8 @@
 		296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HOOHoodieTests.m; sourceTree = "<group>"; };
 		296B901F18E04DBD00F57E46 /* iOS_Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS_Tests-Prefix.pch"; sourceTree = "<group>"; };
 		296B902318E05D2200F57E46 /* HOOAccountTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOAccountTests.m; sourceTree = "<group>"; };
+		29DE615C18F3004A00F35442 /* FakeHoodieServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeHoodieServer.h; sourceTree = "<group>"; };
+		29DE615D18F3004A00F35442 /* FakeHoodieServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeHoodieServer.m; sourceTree = "<group>"; };
 		CB53928DAE0348F4AAD076EB /* Pods-iOS_Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS_Tests.xcconfig"; path = "Pods/Pods-iOS_Tests.xcconfig"; sourceTree = "<group>"; };
 		F5274D208CF7458390B737C0 /* libPods-iOS_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -77,6 +80,7 @@
 		296B901718E04DBD00F57E46 /* iOS_Tests */ = {
 			isa = PBXGroup;
 			children = (
+				29DE615B18F3004A00F35442 /* Server */,
 				296B901D18E04DBD00F57E46 /* HOOHoodieTests.m */,
 				296B902318E05D2200F57E46 /* HOOAccountTests.m */,
 				296B901818E04DBD00F57E46 /* Supporting Files */,
@@ -92,6 +96,15 @@
 				296B901F18E04DBD00F57E46 /* iOS_Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		29DE615B18F3004A00F35442 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				29DE615C18F3004A00F35442 /* FakeHoodieServer.h */,
+				29DE615D18F3004A00F35442 /* FakeHoodieServer.m */,
+			);
+			path = Server;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +205,7 @@
 			files = (
 				296B902418E05D2200F57E46 /* HOOAccountTests.m in Sources */,
 				296B901E18E04DBD00F57E46 /* HOOHoodieTests.m in Sources */,
+				29DE615E18F3004A00F35442 /* FakeHoodieServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
