@@ -11,7 +11,7 @@
 {
     int hoodieIDLength = 7;
     NSString *alphabet  = @"0123456789abcdefghijklmnopqrstuvwxyz";
-    int alphabetLength = [alphabet length];
+    NSUInteger alphabetLength = [alphabet length];
     
     NSMutableString *hoodieID = [NSMutableString stringWithCapacity:hoodieIDLength];
     for (NSUInteger i = 0U; i < hoodieIDLength; i++)
