@@ -5,6 +5,7 @@
 Initial release.
 
 ##0.2.0
+
 New functionality:
 - Remove object from store
 - Update object in store
