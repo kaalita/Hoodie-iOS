@@ -132,7 +132,7 @@ Reserved keys that are set automatically by the Hoodie store are:
 ```
 ## Source
 
-The source code is available o Github:
+The source code is available on Github:
 https://github.com/kaalita/Hoodie-iOS
 
 ## Author
