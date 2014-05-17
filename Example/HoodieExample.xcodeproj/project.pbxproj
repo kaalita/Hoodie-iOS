@@ -23,7 +23,6 @@
 		C74A720F9D3F24D44E1795B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A7989156BB9CCC88EFCB9 /* AppDelegate.m */; };
 		C74A73285FAD7CC50A165DD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A717263B211BDDC7E430A /* UIKit.framework */; };
 		C74A739F966C7CC325D890AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A720B20B8B100BFA4DA1D /* InfoPlist.strings */; };
-		C74A76622CC7CD50DCCF7A08 /* HoodieExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */; };
 		C74A78BDA3BFCFBEA1F96EB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7A1DF255023305F9A97B /* CoreGraphics.framework */; };
 		C74A7945D9D6A17E415BFB9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A704F2E409285D026ED6A /* main.m */; };
 		C74A7D0E6FD7F8D0D552BC6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A706AB0FF3C58773F3C4F /* Foundation.framework */; };
@@ -82,7 +81,6 @@
 		C74A7AE0C771CE65AC57872B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C74A7D0C39AEE95B2B3EB597 /* HoodieExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "HoodieExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C74A7E54947C92B7EE99620C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoodieExampleTests.m; sourceTree = "<group>"; };
 		C74A7E735B4B183B58F96A11 /* HoodieExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoodieExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0483E0319261A8200CF975A /* HOOHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOHelperTests.m; sourceTree = "<group>"; };
 		F0E8709819276F2600F3F540 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				C74A75C5D5FE648A52C45639 /* Supporting Files */,
-				C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */,
 				F0483E0319261A8200CF975A /* HOOHelperTests.m */,
 			);
 			path = HoodieExampleTests;
@@ -408,7 +405,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */,
-				C74A76622CC7CD50DCCF7A08 /* HoodieExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
