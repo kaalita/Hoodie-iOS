@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1643A42B9BA78725065B070F /* HOOErrorGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */; };
 		2907574018ED6A1A00CEEFED /* Account_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2907573F18ED6A1A00CEEFED /* Account_iPhone.storyboard */; };
 		2907574318ED6A4F00CEEFED /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2907574218ED6A4F00CEEFED /* ChangePasswordViewController.m */; };
 		29B2097A18D0AE50000A3CB8 /* Authentication_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B2097418D0AE50000A3CB8 /* Authentication_iPhone.storyboard */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOErrorGeneratorTests.m; sourceTree = "<group>"; };
 		2113E5CB2E90408BA38EF999 /* libPods-HoodieExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HoodieExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2907573F18ED6A1A00CEEFED /* Account_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Account_iPhone.storyboard; path = Account/Account_iPhone.storyboard; sourceTree = "<group>"; };
 		2907574118ED6A4F00CEEFED /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChangePasswordViewController.h; path = Account/ChangePasswordViewController.h; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				C74A75C5D5FE648A52C45639 /* Supporting Files */,
 				F0483E0319261A8200CF975A /* HOOHelperTests.m */,
+				1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */,
 			);
 			path = HoodieExampleTests;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */,
+				1643A42B9BA78725065B070F /* HOOErrorGeneratorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
