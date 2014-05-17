@@ -15,7 +15,7 @@
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestManager;
 @property (nonatomic, strong) NSURLProtectionSpace *remoteDatabaseProtectionSpace;
 @property (nonatomic, strong) HOOHoodie *hoodie;
-@property(nonatomic, assign, readwrite) BOOL authenticated;
+@property (nonatomic, assign, readwrite) BOOL authenticated;
 
 @end
 
