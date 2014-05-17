@@ -29,6 +29,7 @@
 		C74A7D7547E138D747D5C9BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A79F40AC539B129FBFEB0 /* InfoPlist.strings */; };
 		C74A7E05E8104EC5D808358A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C74A758DCE86DB2280FE14E4 /* Images.xcassets */; };
 		C74A7E7012812E742AC630E2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A717263B211BDDC7E430A /* UIKit.framework */; };
+		F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F0483E0319261A8200CF975A /* HOOHelperTests.m */; };
 		F614A159F0BB4D9D8EC2133B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF17EE8265BE4EB291EA4FDD /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		C74A7E54947C92B7EE99620C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoodieExampleTests.m; sourceTree = "<group>"; };
 		C74A7E735B4B183B58F96A11 /* HoodieExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoodieExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0483E0319261A8200CF975A /* HOOHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOHelperTests.m; sourceTree = "<group>"; };
 		FF17EE8265BE4EB291EA4FDD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -185,6 +187,7 @@
 			children = (
 				C74A75C5D5FE648A52C45639 /* Supporting Files */,
 				C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */,
+				F0483E0319261A8200CF975A /* HOOHelperTests.m */,
 			);
 			path = HoodieExampleTests;
 			sourceTree = "<group>";
@@ -259,6 +262,11 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = Hoodie;
+				TargetAttributes = {
+					C74A79A0F1491FFBA9E3CBF5 = {
+						TestTargetID = C74A7034BED1C43A5E68F1DA;
+					};
+				};
 			};
 			buildConfigurationList = C74A7DD0B18B78E0DC299E90 /* Build configuration list for PBXProject "HoodieExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -355,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */,
 				C74A76622CC7CD50DCCF7A08 /* HoodieExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +401,7 @@
 		C74A72F259C3239BC366C8A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HoodieExample.app/HoodieExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -400,6 +410,7 @@
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExampleTests/HoodieExampleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -421,6 +432,7 @@
 		C74A7CD2CC70D6941B824288 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HoodieExample.app/HoodieExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -429,6 +441,7 @@
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExampleTests/HoodieExampleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
