@@ -15,6 +15,6 @@ typedef enum {
 
 @interface HOOErrorGenerator : NSObject
 
-+ (NSError *) errorWithType: (HOOErrorType) errorType;
++ (NSError *)errorWithType:(HOOErrorType)errorType;
 
 @end

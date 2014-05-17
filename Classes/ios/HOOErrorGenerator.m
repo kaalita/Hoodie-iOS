@@ -33,7 +33,6 @@
             errorDescription =  NSLocalizedString(@"Sign up failed", nil);
             errorFailureReason =  NSLocalizedString(@"Username already taken.", nil);
             errorRecoverySuggestion = NSLocalizedString(@"Please try another username.", nil);
-
         }
             break;
 
@@ -52,7 +51,6 @@
             errorDescription =  NSLocalizedString(@"Sign in failed", nil);
             errorFailureReason =  NSLocalizedString(@"Wrong username or password", nil);
             errorRecoverySuggestion = NSLocalizedString(@"Please make sure the entered username and/or password are correct.", nil);
-
         }
             break;
             
@@ -62,7 +60,6 @@
             errorDescription =  NSLocalizedString(@"Document does not exist", nil);
             errorFailureReason =  NSLocalizedString(@"A document with the given id and type does not exist.", nil);
             errorRecoverySuggestion = NSLocalizedString(@"Please make sure the given id and type are correct.", nil);
-            
         }
             break;
     }

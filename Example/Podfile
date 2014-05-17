@@ -1,3 +1,8 @@
-pod "HOOHoodie", :path => "../HOOHoodie.podspec"
+platform :ios, '6.0'
 
+pod "HOOHoodie", :path => "../HOOHoodie.podspec"
 pod 'SVProgressHUD'
+
+target "HoodieExampleTests", :exclusive => true do
+  pod "Expecta", "~> 0.3.0"
+end

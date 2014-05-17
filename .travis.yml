@@ -1,8 +1,5 @@
 language: objective-c
 before_script: 
-  - brew update
-  - brew unlink xctool
-  - brew install -v --HEAD xctool
+  - gem install xcpretty
 script:
-  - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES test
-  - xctool test -workspace Example/HoodieExample.xcworkspace -scheme HoodieExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES
+  - xcodebuild -workspace "Example/HoodieExample.xcworkspace" -scheme HoodieExample -destination platform='iOS Simulator',OS=7.1,name='iPhone Retina (4-inch)' clean test -sdk iphonesimulator | xcpretty -c -t

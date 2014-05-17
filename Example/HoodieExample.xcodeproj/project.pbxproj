@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1643A42B9BA78725065B070F /* HOOErrorGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */; };
+		1643AB41E254BF72DFF1109E /* HOOHoodieTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643ACE4054237F099B52661 /* HOOHoodieTests.m */; };
 		2907574018ED6A1A00CEEFED /* Account_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2907573F18ED6A1A00CEEFED /* Account_iPhone.storyboard */; };
 		2907574318ED6A4F00CEEFED /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2907574218ED6A4F00CEEFED /* ChangePasswordViewController.m */; };
 		29B2097A18D0AE50000A3CB8 /* Authentication_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B2097418D0AE50000A3CB8 /* Authentication_iPhone.storyboard */; };
@@ -17,19 +19,20 @@
 		29B2098718D0AE5E000A3CB8 /* PlaygroundDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B2098118D0AE5E000A3CB8 /* PlaygroundDataSource.m */; };
 		29B2098818D0AE5E000A3CB8 /* PlaygroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B2098318D0AE5E000A3CB8 /* PlaygroundViewController.m */; };
 		29B2098918D0AE5E000A3CB8 /* PlaygroundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29B2098418D0AE5E000A3CB8 /* PlaygroundViewController.xib */; };
+		6D51E0F62B684E5BA5B430EA /* libPods-HoodieExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF0CEE7E30B4A13A9C6D9A5 /* libPods-HoodieExampleTests.a */; };
 		C74A707B111CA1312748567C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7864F186C327C31073D7 /* XCTest.framework */; };
 		C74A709DE2B48519FBB839CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A706AB0FF3C58773F3C4F /* Foundation.framework */; };
 		C74A720F9D3F24D44E1795B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A7989156BB9CCC88EFCB9 /* AppDelegate.m */; };
 		C74A73285FAD7CC50A165DD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A717263B211BDDC7E430A /* UIKit.framework */; };
 		C74A739F966C7CC325D890AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A720B20B8B100BFA4DA1D /* InfoPlist.strings */; };
-		C74A76622CC7CD50DCCF7A08 /* HoodieExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */; };
 		C74A78BDA3BFCFBEA1F96EB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A7A1DF255023305F9A97B /* CoreGraphics.framework */; };
 		C74A7945D9D6A17E415BFB9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A704F2E409285D026ED6A /* main.m */; };
 		C74A7D0E6FD7F8D0D552BC6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A706AB0FF3C58773F3C4F /* Foundation.framework */; };
 		C74A7D7547E138D747D5C9BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C74A79F40AC539B129FBFEB0 /* InfoPlist.strings */; };
 		C74A7E05E8104EC5D808358A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C74A758DCE86DB2280FE14E4 /* Images.xcassets */; };
 		C74A7E7012812E742AC630E2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C74A717263B211BDDC7E430A /* UIKit.framework */; };
-		F614A159F0BB4D9D8EC2133B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF17EE8265BE4EB291EA4FDD /* libPods.a */; };
+		F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F0483E0319261A8200CF975A /* HOOHelperTests.m */; };
+		F0E8709919276F2600F3F540 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0E8709819276F2600F3F540 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOErrorGeneratorTests.m; sourceTree = "<group>"; };
+		1643ACE4054237F099B52661 /* HOOHoodieTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOHoodieTests.m; sourceTree = "<group>"; };
+		2113E5CB2E90408BA38EF999 /* libPods-HoodieExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HoodieExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2907573F18ED6A1A00CEEFED /* Account_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Account_iPhone.storyboard; path = Account/Account_iPhone.storyboard; sourceTree = "<group>"; };
 		2907574118ED6A4F00CEEFED /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChangePasswordViewController.h; path = Account/ChangePasswordViewController.h; sourceTree = "<group>"; };
 		2907574218ED6A4F00CEEFED /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChangePasswordViewController.m; path = Account/ChangePasswordViewController.m; sourceTree = "<group>"; };
@@ -62,6 +68,9 @@
 		29B2098318D0AE5E000A3CB8 /* PlaygroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaygroundViewController.m; sourceTree = "<group>"; };
 		29B2098418D0AE5E000A3CB8 /* PlaygroundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaygroundViewController.xib; sourceTree = "<group>"; };
 		29B3308507E84606BF665D6E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		2FF0CEE7E30B4A13A9C6D9A5 /* libPods-HoodieExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HoodieExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		527C773718CE4836AFD33B57 /* Pods-HoodieExampleTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HoodieExampleTests.xcconfig"; path = "Pods/Pods-HoodieExampleTests.xcconfig"; sourceTree = "<group>"; };
+		823F38E7CBC040DD8F8C9E6E /* Pods-HoodieExample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HoodieExample.xcconfig"; path = "Pods/Pods-HoodieExample.xcconfig"; sourceTree = "<group>"; };
 		C74A704F2E409285D026ED6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C74A706AB0FF3C58773F3C4F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C74A717263B211BDDC7E430A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -76,8 +85,9 @@
 		C74A7AE0C771CE65AC57872B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C74A7D0C39AEE95B2B3EB597 /* HoodieExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "HoodieExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C74A7E54947C92B7EE99620C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoodieExampleTests.m; sourceTree = "<group>"; };
 		C74A7E735B4B183B58F96A11 /* HoodieExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoodieExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0483E0319261A8200CF975A /* HOOHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOOHelperTests.m; sourceTree = "<group>"; };
+		F0E8709819276F2600F3F540 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		FF17EE8265BE4EB291EA4FDD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -89,7 +99,7 @@
 				C74A7D0E6FD7F8D0D552BC6B /* Foundation.framework in Frameworks */,
 				C74A78BDA3BFCFBEA1F96EB8 /* CoreGraphics.framework in Frameworks */,
 				C74A73285FAD7CC50A165DD1 /* UIKit.framework in Frameworks */,
-				F614A159F0BB4D9D8EC2133B /* libPods.a in Frameworks */,
+				F0E8709919276F2600F3F540 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +110,7 @@
 				C74A707B111CA1312748567C /* XCTest.framework in Frameworks */,
 				C74A709DE2B48519FBB839CA /* Foundation.framework in Frameworks */,
 				C74A7E7012812E742AC630E2 /* UIKit.framework in Frameworks */,
+				6D51E0F62B684E5BA5B430EA /* libPods-HoodieExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +179,8 @@
 				C74A714C5F622B4764E2DF9D /* HoodieExample */,
 				C74A788FB1B77DF7B581214F /* HoodieExampleTests */,
 				29B3308507E84606BF665D6E /* Pods.xcconfig */,
+				823F38E7CBC040DD8F8C9E6E /* Pods-HoodieExample.xcconfig */,
+				527C773718CE4836AFD33B57 /* Pods-HoodieExampleTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,7 +197,9 @@
 			isa = PBXGroup;
 			children = (
 				C74A75C5D5FE648A52C45639 /* Supporting Files */,
-				C74A7E5B8CA54301C4EAE40B /* HoodieExampleTests.m */,
+				F0483E0319261A8200CF975A /* HOOHelperTests.m */,
+				1643A24FA2FA9DFA8573AE27 /* HOOErrorGeneratorTests.m */,
+				1643ACE4054237F099B52661 /* HOOHoodieTests.m */,
 			);
 			path = HoodieExampleTests;
 			sourceTree = "<group>";
@@ -192,11 +207,14 @@
 		C74A7AA9137803CFBAAA948F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0E8709819276F2600F3F540 /* libPods.a */,
 				C74A706AB0FF3C58773F3C4F /* Foundation.framework */,
 				C74A7A1DF255023305F9A97B /* CoreGraphics.framework */,
 				C74A717263B211BDDC7E430A /* UIKit.framework */,
 				C74A7864F186C327C31073D7 /* XCTest.framework */,
 				FF17EE8265BE4EB291EA4FDD /* libPods.a */,
+				2113E5CB2E90408BA38EF999 /* libPods-HoodieExample.a */,
+				2FF0CEE7E30B4A13A9C6D9A5 /* libPods-HoodieExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -238,9 +256,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C74A7C767651868DDFB8CDF0 /* Build configuration list for PBXNativeTarget "HoodieExampleTests" */;
 			buildPhases = (
+				C1EAFD1028F645988837A691 /* Check Pods Manifest.lock */,
 				C74A7B1C94AC1BEEC268E77A /* Sources */,
 				C74A7A364F359CAB923428BE /* Frameworks */,
 				C74A77290C760A98CE63C4F0 /* Resources */,
+				E7C38349471342B28DBE6951 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -259,6 +279,11 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = Hoodie;
+				TargetAttributes = {
+					C74A79A0F1491FFBA9E3CBF5 = {
+						TestTargetID = C74A7034BED1C43A5E68F1DA;
+					};
+				};
 			};
 			buildConfigurationList = C74A7DD0B18B78E0DC299E90 /* Build configuration list for PBXProject "HoodieExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -315,7 +340,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Pods-HoodieExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C1EAFD1028F645988837A691 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E6F63C21059E4E938D54CB4B /* Check Pods Manifest.lock */ = {
@@ -331,6 +371,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E7C38349471342B28DBE6951 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-HoodieExampleTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -355,7 +410,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C74A76622CC7CD50DCCF7A08 /* HoodieExampleTests.m in Sources */,
+				F0483E0419261A8200CF975A /* HOOHelperTests.m in Sources */,
+				1643A42B9BA78725065B070F /* HOOErrorGeneratorTests.m in Sources */,
+				1643AB41E254BF72DFF1109E /* HOOHoodieTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +448,9 @@
 /* Begin XCBuildConfiguration section */
 		C74A72F259C3239BC366C8A3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 527C773718CE4836AFD33B57 /* Pods-HoodieExampleTests.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HoodieExample.app/HoodieExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -400,19 +459,24 @@
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExampleTests/HoodieExampleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
 		C74A7B24C124C3A4A49B09ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29B3308507E84606BF665D6E /* Pods.xcconfig */;
+			baseConfigurationReference = 823F38E7CBC040DD8F8C9E6E /* Pods-HoodieExample.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExample/HoodieExample-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -420,7 +484,9 @@
 		};
 		C74A7CD2CC70D6941B824288 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 527C773718CE4836AFD33B57 /* Pods-HoodieExampleTests.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HoodieExample.app/HoodieExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -429,6 +495,7 @@
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExampleTests/HoodieExampleTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -474,13 +541,17 @@
 		};
 		C74A7DDD8AB90E262A7437DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29B3308507E84606BF665D6E /* Pods.xcconfig */;
+			baseConfigurationReference = 823F38E7CBC040DD8F8C9E6E /* Pods-HoodieExample.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HoodieExample/HoodieExample-Prefix.pch";
 				INFOPLIST_FILE = "HoodieExample/HoodieExample-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

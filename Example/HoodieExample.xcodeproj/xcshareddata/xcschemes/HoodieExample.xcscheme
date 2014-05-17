@@ -27,7 +27,26 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C74A79A0F1491FFBA9E3CBF5"
+               BuildableName = "HoodieExampleTests.xctest"
+               BlueprintName = "HoodieExampleTests"
+               ReferencedContainer = "container:HoodieExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C74A7034BED1C43A5E68F1DA"
+            BuildableName = "HoodieExample.app"
+            BlueprintName = "HoodieExample"
+            ReferencedContainer = "container:HoodieExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
