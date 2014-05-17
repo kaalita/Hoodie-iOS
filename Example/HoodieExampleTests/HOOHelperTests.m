@@ -1,12 +1,7 @@
-//
-//  HOOHelperTests.m
-//  HoodieExample
-//
-//  Created by Piet Brauer on 16.05.14.
-//  Copyright (c) 2014 Hoodie. All rights reserved.
-//
-
 #import <XCTest/XCTest.h>
+#import <HOOHoodie/HOOHelper.h>
+#define EXP_SHORTHAND
+#import <Expecta/Expecta.h>
 
 @interface HOOHelperTests : XCTestCase
 
@@ -14,21 +9,27 @@
 
 @implementation HOOHelperTests
 
-- (void)setUp
+- (void)testHoodieIDIs7CharsLong
 {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    NSString *idUnderTest = [HOOHelper generateHoodieID];
+    expect(idUnderTest.length).to.equal(7);
 }
 
-- (void)tearDown
+- (void)testHoodieIDIsFulfillingRegex
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
+    NSString *idUnderTest = [HOOHelper generateHoodieID];
+    NSError *error;
+    NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:@"^[a-z0-9]*$"
+                                                                                       options:0
+                                                                                         error:&error];
+    NSRange range = NSMakeRange(0, idUnderTest.length);
+    NSString *replacedText = [regularExpression stringByReplacingMatchesInString:idUnderTest
+                                                                         options:0
+                                                                           range:range
+                                                                    withTemplate:@""];
 
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    expect(error).to.beNil();
+    expect(replacedText.length).to.equal(0);
 }
 
 @end
