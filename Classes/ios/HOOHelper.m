@@ -13,7 +13,7 @@
     NSString *alphabet  = @"0123456789abcdefghijklmnopqrstuvwxyz";
     NSUInteger alphabetLength = [alphabet length];
     
-    NSMutableString *hoodieID = [NSMutableString stringWithCapacity:hoodieIDLength];
+    NSMutableString *hoodieID = [NSMutableString stringWithCapacity:(NSUInteger)hoodieIDLength];
     for (NSUInteger i = 0U; i < hoodieIDLength; i++)
     {
         u_int32_t r = arc4random() % alphabetLength;
