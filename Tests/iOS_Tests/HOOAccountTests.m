@@ -242,6 +242,22 @@ describe(@"HOOAccount", ^{
             [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(2.0)] beNonNil];
         });
     });
+    
+#pragma mark - Anonymous signup
+    
+    context(@"anonymous signup succesful", ^{
+       
+        it(@"should exist an anonymous account with username = hoodieID", ^{
+            
+            [account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {
+                
+            }];
+           
+            [[expectFutureValue(@(account.hasAnonymousAccount)) shouldEventuallyBeforeTimingOutAfter(2.0)] beTrue];
+            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:hoodie.hoodieID];
+        });
+    });
+    
   });
 
 SPEC_END
