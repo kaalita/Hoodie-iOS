@@ -1,4 +1,4 @@
-# Contributing to HOOHoodie
+# Contributing to Hoodie-iOS
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
@@ -147,3 +147,11 @@ If you have commit access, please follow this process for merging patches and cu
 3. Try to avoid using GitHub's merge button. Locally rebase your change onto
    `master` and then push to GitHub.
 4. Once a feature branch has been merged into its target branch, please delete the feature branch from the remote repository.
+
+
+### Credits
+
+The contributing guidelines are an adapted copy of the Hoodie.js guidelines:
+https://github.com/hoodiehq/hoodie.js/blob/master/CONTRIBUTING.md
+
+
