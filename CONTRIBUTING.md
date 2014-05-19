@@ -77,11 +77,11 @@ included in the project:
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/hoodie.js
+   git clone https://github.com/<your-username>/Hoodie-iOS
    # Navigate to the newly cloned directory
    cd Hoodie-iOS
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/hoodiehq/hoodie.js
+   git remote add upstream https://github.com/kaalita/Hoodie-iOSj
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
