@@ -10,7 +10,8 @@ As local storage the awesome Couchbase Lite framework is used, which also handle
 
 It doesn't support the full API and functionality yet (see issues to see what's still missing). 
 Currently supported functionality:
-- Sign up
+- Anonymous Sign up
+- Sign up (sign up with username and password)
 - Sign in
 - Sign out
 - Change password of account
@@ -52,6 +53,14 @@ To get started with Hoodie-iOS, first install the Hoodie Server and create and s
     // Create new Hoodie instance with URL to your Hoodie API
     self.hoodie = [[HOOHoodie alloc] initWithBaseURL:baseURL];
 }
+```
+
+####Anonymous sign up
+
+```Objective-C
+[self.hoodie.account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {               
+
+            }];
 ```
 
 ####Sign up new user
