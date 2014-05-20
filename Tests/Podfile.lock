@@ -1,33 +1,33 @@
 PODS:
-  - AFNetworking (2.2.1):
+  - AFNetworking (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.2.1):
+  - AFNetworking/NSURLConnection (2.2.4):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.1):
+  - AFNetworking/NSURLSession (2.2.4):
     - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.1)
-  - AFNetworking/Security (2.2.1)
-  - AFNetworking/Serialization (2.2.1)
-  - AFNetworking/UIKit (2.2.1):
+  - AFNetworking/Reachability (2.2.4)
+  - AFNetworking/Security (2.2.4)
+  - AFNetworking/Serialization (2.2.4)
+  - AFNetworking/UIKit (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - couchbase-lite-ios (1.0-beta2)
+  - couchbase-lite-ios (1.0-beta3.1-64bit)
   - HOOHoodie (0.2.0):
     - AFNetworking (~> 2.0)
-    - couchbase-lite-ios (= 1.0-beta2)
+    - couchbase-lite-ios (= 1.0-beta3.1-64bit)
   - Kiwi/ARC (2.2.4)
   - Kiwi/NonARC (2.2.4)
   - Kiwi/XCTest (2.2.4):
     - Kiwi/ARC
     - Kiwi/NonARC
-  - OHHTTPStubs (3.1.0)
+  - OHHTTPStubs (3.1.1)
 
 DEPENDENCIES:
   - HOOHoodie (from `../HOOHoodie.podspec`)
@@ -39,10 +39,10 @@ EXTERNAL SOURCES:
     :path: ../HOOHoodie.podspec
 
 SPEC CHECKSUMS:
-  AFNetworking: 0121f4b69be3fa58d1ab317866e036e12ac9651d
-  couchbase-lite-ios: 8bb8a2ff645af07ea4eff922d6b24b6e33cb8b8b
-  HOOHoodie: 7771a7328e9b1aaed9d32b55900e18631fae31f9
-  Kiwi: d60d7498b640a16f58b01925fc3c8d7c4d809f66
-  OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36
+  AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
+  couchbase-lite-ios: 122fc0341333089aee27d3e543b32b7ed0da1f06
+  HOOHoodie: 0facce7c7444ca7dd7001004d319f82381ae7d0e
+  Kiwi: c73667f2b84cbf36f1a3830267c5a4ae8dcbd8ba
+  OHHTTPStubs: 58b42d245ad2416bac170ce18e1383913d17e315
 
-COCOAPODS: 0.31.1
+COCOAPODS: 0.33.0

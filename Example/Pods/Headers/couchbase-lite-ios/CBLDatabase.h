@@ -1,1 +1,1 @@
-../../couchbase-lite-ios/CouchbaseLite.framework/Headers/CBLDatabase.h
+../../couchbase-lite-ios/cblite_ios_1.0-38/64-bit/CouchbaseLite.framework/Headers/CBLDatabase.h

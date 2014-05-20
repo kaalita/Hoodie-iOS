@@ -4,5 +4,5 @@ before_script:
   - brew unlink xctool
   - brew install -v --HEAD xctool
 script:
-  - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES test
-  - xctool test -workspace Example/HoodieExample.xcworkspace -scheme HoodieExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=YES
+  - xctool -workspace Tests/HOOHoodieTests.xcworkspace -scheme iOS_Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test
+  - xctool test -workspace Example/HoodieExample.xcworkspace -scheme HoodieExample -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO

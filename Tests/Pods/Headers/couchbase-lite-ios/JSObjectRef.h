@@ -1,1 +1,0 @@
-../../couchbase-lite-ios/JavaScriptCore.framework/Headers/JSObjectRef.h

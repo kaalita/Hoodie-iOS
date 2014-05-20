@@ -14,6 +14,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.requires_arc = true
   s.source_files = 'Classes/ios/*'
-  s.dependency 'couchbase-lite-ios', '1.0-beta2'
+  s.dependency 'couchbase-lite-ios', '1.0-beta3.1-64bit'
   s.dependency 'AFNetworking', '~> 2.0'
 end

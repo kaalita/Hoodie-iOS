@@ -273,13 +273,11 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
 - (void)setRemoteStoreURL:(NSURL *)remoteStoreURL
 {
-    NSArray *replications = [self.database replicationsWithURL:remoteStoreURL exclusively:YES];
+    self.pullReplication = [self.database createPullReplication:remoteStoreURL];
+    self.pullReplication.continuous = YES;
 
-    self.pullReplication = replications[0];
-    self.pullReplication.persistent = YES;
-
-    self.pushReplication = replications[1];
-    self.pushReplication.persistent = YES;
+    self.pushReplication = [self.database createPushReplication:remoteStoreURL];
+    self.pushReplication.continuous = YES;
 
     [self.pullReplication start];
     [self.pushReplication start];
@@ -289,6 +287,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 {
     [self tearDownDatabase];
     [self setupDatabase];
+    [self databaseChanged:nil];
 }
 
 # pragma mark - Helper methods

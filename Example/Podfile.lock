@@ -18,10 +18,10 @@ PODS:
   - AFNetworking/UIKit (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - couchbase-lite-ios (1.0-beta2)
+  - couchbase-lite-ios (1.0-beta3.1-64bit)
   - HOOHoodie (0.2.0):
     - AFNetworking (~> 2.0)
-    - couchbase-lite-ios (= 1.0-beta2)
+    - couchbase-lite-ios (= 1.0-beta3.1-64bit)
   - SVProgressHUD (1.0)
 
 DEPENDENCIES:
@@ -33,9 +33,9 @@ EXTERNAL SOURCES:
     :path: ../HOOHoodie.podspec
 
 SPEC CHECKSUMS:
-  AFNetworking: a7929964d7b7bfe74be51dd7253dfa8cd55fd114
-  couchbase-lite-ios: 8bb8a2ff645af07ea4eff922d6b24b6e33cb8b8b
-  HOOHoodie: 7771a7328e9b1aaed9d32b55900e18631fae31f9
-  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
+  AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
+  couchbase-lite-ios: 122fc0341333089aee27d3e543b32b7ed0da1f06
+  HOOHoodie: 0facce7c7444ca7dd7001004d319f82381ae7d0e
+  SVProgressHUD: 5034c6e22b8c2ca3e09402e48d41ed0340aa1c50
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.0
