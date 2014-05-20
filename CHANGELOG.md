@@ -15,3 +15,9 @@ Also:
 - HOOStoreChangeNotification now posted on main thread
 - Hoodie id generation now follows the same standards as hoodie.js
 - Added tests & travis integration
+
+##0.2.1
+
+- Now also works on 64bit architecture
+- Update to Couchbase Lite 1.0-beta3.1
+- New feature: Anonymous signup
