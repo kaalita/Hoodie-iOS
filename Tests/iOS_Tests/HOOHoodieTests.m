@@ -26,7 +26,6 @@ describe(@"HOOHoodie", ^{
             [[[[HOOHoodie alloc] initWithBaseURL:baseURLWithTrailingSlash].baseURL should] equal:baseURL];
         });
     });
-    
 });
 
 SPEC_END

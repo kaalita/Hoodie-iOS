@@ -255,8 +255,8 @@ describe(@"HOOAccount", ^{
                 
             }];
            
-            [[expectFutureValue(@(account.hasAnonymousAccount)) shouldEventuallyBeforeTimingOutAfter(2.0)] beTrue];
-            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:hoodie.hoodieID];
+            [[expectFutureValue(@(account.hasAnonymousAccount)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beTrue];
+            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:hoodie.hoodieID];
         });
     });
     
