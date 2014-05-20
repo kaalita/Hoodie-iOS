@@ -17,6 +17,15 @@
 
 @implementation SignUpViewController
 
+- (id)initWithHoodie:(HOOHoodie *)hoodie
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Authentication_iPhone" bundle:nil];
+    self = [storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"];
+    self.hoodie = hoodie;
+    
+    return self;
+}
+
 #pragma mark - UITextFieldDelegate methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

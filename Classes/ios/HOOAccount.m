@@ -15,7 +15,7 @@
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestManager;
 @property (nonatomic, strong) NSURLProtectionSpace *remoteDatabaseProtectionSpace;
 @property (nonatomic, strong) HOOHoodie *hoodie;
-@property(nonatomic, assign, readwrite) BOOL authenticated;
+@property (nonatomic, assign, readwrite) BOOL authenticated;
 
 @end
 
@@ -67,6 +67,31 @@
    }
 }
 
+- (void)anonymousSignUpOnFinished:(void (^)(BOOL signUpSuccessful, NSError *error))onSignUpFinished
+{
+    NSString *username = self.hoodie.hoodieID;
+    NSString *generatedPassword = [HOOHelper generateHoodieID];
+    
+    [self signUpUserWithName:username
+                    password:generatedPassword
+                    onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+       
+        onSignUpFinished(signUpSuccessful,error);
+    }];
+}
+
+- (BOOL)hasAnonymousAccount
+{
+    if([self.username isEqualToString:self.hoodie.hoodieID])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 - (void)signUpUserWithName:(NSString *)username
                   password:(NSString *)password
                   onSignUp:(void (^)(BOOL signUpSuccessful, NSError *error))onSignUpFinished
@@ -81,56 +106,28 @@
     {
         password = @"";
     }
-
-    NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[username lowercaseString]];
-    NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
-
-    NSDictionary *userDictionary = @{
-            @"_id": userID,
-            @"type": @"user",
-            @"name": prefixedUsername,
-            @"database": [self userDatabaseName],
-            @"roles": @[],
-            @"password": password,
-            @"hoodieId": self.hoodie.hoodieID,
-            @"updatedAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
-            @"createdAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
-            @"signedUpAt": [CBLJSON JSONObjectWithDate: [NSDate new]]
-    };
-
-    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
-
-    [self.requestManager PUT:pathToUser
-                  parameters:userDictionary
-                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                         
-                         NSString *couchUserID = responseObject[@"id"];
-                         NSString *returnedUsername = [couchUserID componentsSeparatedByString:@"/"][1];
-
-                         // Sign in user after sign up
-                         [self delayedSignInWithUsername:returnedUsername
-                                                password:password
-                                         numberOfRetries:10
-                                         onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
-
-                                             [self setAccountDatabase];
-                                             onSignUpFinished(YES, nil);
-                         }];
-                     }
-                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-                        // A conflict means that the username already exists
-                        if([operation.response statusCode] == 409)
-                        {
-                            onSignUpFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountSignUpUsernameTakenError]);
-                        }
-                        else
-                        {
-                            onSignUpFinished(NO, error);
-                        }
-                    }
-    ];
+    
+    if([self hasAnonymousAccount])
+    {
+        [self upgradeAnonymousAccountWithUsername:username
+                                         password:password
+                                onUpgradeFinished:^(BOOL upgradeSuccessful, NSError *error) {
+                                    
+                                    onSignUpFinished(upgradeSuccessful,error);
+                                    return;
+                                }
+         ];
+    }
+    else
+    {
+        [self createNewAccountWithUsername:username
+                                  password:password
+                                onFinished:^(BOOL accountCreationSuccessul, NSError *error)
+         {
+             onSignUpFinished(accountCreationSuccessul,error);
+             return;
+         }];
+    }
 }
 
 - (void)signInUserWithName:(NSString *)username
@@ -359,6 +356,123 @@
                          
                          onFinished(nil, error);
     }];
+}
+
+-(NSURLCredential *)urlCredential
+{
+    NSURLCredential *credential;
+    NSDictionary *credentials;
+    
+    credentials = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:self.remoteDatabaseProtectionSpace];
+    credential = [credentials.objectEnumerator nextObject];
+    return credential;
+}
+
+- (void)changeUsername:(NSString *)newUsername
+           andPassword:(NSString *)newPassword
+   withCurrentPassword:(NSString *)currentPassword
+      onChangeFinished:(void (^)(BOOL changeSuccessful, NSError * error))onChangeFinished
+{
+    
+    [self fetchUserDocumentOnFinished:^(NSDictionary *userDocument, NSError *error) {
+        
+        NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
+        NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
+        
+        NSMutableDictionary *newUserDocument = [[NSMutableDictionary alloc] initWithDictionary:userDocument];
+        
+        newUserDocument[@"$newUsername"] = newUsername;
+        newUserDocument[@"password"] = newPassword;
+        newUserDocument[@"updatedAt"] = [CBLJSON JSONObjectWithDate: [NSDate new]];
+        [newUserDocument removeObjectsForKeys:@[@"salt", @"password_sha"]];
+        
+        NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+        NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
+        
+        [self.requestManager PUT:pathToUser
+                      parameters:newUserDocument
+                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                             
+                             self.username = newUsername;
+                             onChangeFinished(YES,nil);
+                         }
+                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                             
+                             onChangeFinished(NO, error);
+                         }
+         ];
+    }];
+}
+
+- (void)upgradeAnonymousAccountWithUsername:(NSString *)username
+                                   password:(NSString *)password
+                          onUpgradeFinished:(void (^)(BOOL upgradeSuccessful, NSError * error))onUpgradeFinished
+{
+    
+    NSString *currentPassword = [self urlCredential].password;
+    
+    [self changeUsername:username
+             andPassword:password
+     withCurrentPassword:currentPassword
+        onChangeFinished:^(BOOL changeSuccessful, NSError *error) {
+         
+            onUpgradeFinished(changeSuccessful, error);
+    }];
+}
+
+-(void)createNewAccountWithUsername:username
+                           password:password
+                         onFinished:(void (^)(BOOL accountCreationSuccessful, NSError * error))onFinished
+{
+    NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[username lowercaseString]];
+    NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
+    
+    NSDictionary *userDictionary = @{
+                                     @"_id": userID,
+                                     @"type": @"user",
+                                     @"name": prefixedUsername,
+                                     @"database": [self userDatabaseName],
+                                     @"roles": @[],
+                                     @"password": password,
+                                     @"hoodieId": self.hoodie.hoodieID,
+                                     @"updatedAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
+                                     @"createdAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
+                                     @"signedUpAt": [CBLJSON JSONObjectWithDate: [NSDate new]]
+                                     };
+    
+    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
+    
+    [self.requestManager PUT:pathToUser
+                  parameters:userDictionary
+                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                         
+                         NSString *couchUserID = responseObject[@"id"];
+                         NSString *returnedUsername = [couchUserID componentsSeparatedByString:@"/"][1];
+                         
+                         // Sign in user after sign up
+                         [self delayedSignInWithUsername:returnedUsername
+                                                password:password
+                                         numberOfRetries:10
+                                         onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                             
+                                             [self setAccountDatabase];
+                                             onFinished(YES, nil);
+                                         }];
+                     }
+                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         
+                         // A conflict means that the username already exists
+                         if([operation.response statusCode] == 409)
+                         {
+                             onFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountSignUpUsernameTakenError]);
+                         }
+                         else
+                         {
+                             onFinished(NO, error);
+                         }
+                     }
+     ];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "ChangePasswordViewController.h"
 #import "HOOHoodie.h"
 #import "SVProgressHUD.h"
+#import "SignUpViewController.h"
 
 @interface PlaygroundViewController ()  <UITableViewDelegate,UITextFieldDelegate,AuthenticationDelegate,AccountDelegate,UIActionSheetDelegate>
 
@@ -70,7 +71,18 @@
     [self.hoodie.account automaticallySignInExistingUser:^(BOOL existingUser, NSError *error) {
         
         [SVProgressHUD dismiss];
-        [self updateSignInStateDependentElements];
+        
+        if(existingUser)
+        {
+            [self updateSignInStateDependentElements];
+        }
+        else
+        {
+            [self.hoodie.account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {
+               
+                [self updateSignInStateDependentElements];
+            }];
+        }
     }];
 }
 
@@ -82,10 +94,16 @@
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(showAccountOptions)];
-
-        self.userGreeting.text = [NSString stringWithFormat:@"%@ %@",
-                                                            NSLocalizedString(@"Hello", nil),
-                                                            self.hoodie.account.username];
+        if([self.hoodie.account hasAnonymousAccount])
+        {
+            self.userGreeting.text = @"Hello anonymous";
+        }
+        else
+        {
+            self.userGreeting.text = [NSString stringWithFormat:@"%@ %@",
+                                      NSLocalizedString(@"Hello", nil),
+                                      self.hoodie.account.username];
+        }
     }
     else
     {
@@ -100,11 +118,24 @@
 
 - (void)showAccountOptions
 {
-    UIActionSheet *accountOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"Your account"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                       destructiveButtonTitle:nil
-                                                            otherButtonTitles:@"Change password", @"Sign out",nil];
+    UIActionSheet *accountOptionsSheet;
+    
+    if([self.hoodie.account hasAnonymousAccount])
+    {
+        accountOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"Your anonymous account"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"Upgrade account", @"Sign out",nil];
+    }
+    else
+    {
+        accountOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"Your account"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"Change password", @"Sign out",nil];
+    }
     
     [accountOptionsSheet showInView:self.view];
 }
@@ -113,13 +144,37 @@
 {
     if(buttonIndex == 0)
     {
-        [self changePassword];
+        if([self.hoodie.account hasAnonymousAccount])
+        {
+            [self upgradeAccount];
+        }
+        else
+        {
+            [self changePassword];
+        }
     }
     
     if(buttonIndex == 1)
     {
         [self signOut];
     }
+}
+
+-(void)upgradeAccount
+{
+    SignUpViewController *signUpViewController = [[SignUpViewController alloc] initWithHoodie:self.hoodie];
+    signUpViewController.authenticationDelegate = self;
+    
+    UINavigationController *signUpNavigationController = [[UINavigationController alloc] initWithRootViewController:signUpViewController];
+    
+    signUpViewController.navigationItem.leftBarButtonItem =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                      target:self
+                                                      action:@selector(dismissModalViewControllerAnimated:)];
+    
+    [self presentViewController:signUpNavigationController animated:YES completion:^{
+        
+    }];
 }
 
 -(void)changePassword

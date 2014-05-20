@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Faq-ld-lA3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Faq-ld-lA3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Change Password View Controller - Change password-->
+        <!--Change Password View Controller - Change Password-->
         <scene sceneID="WYy-gg-2gC">
             <objects>
                 <tableViewController storyboardIdentifier="ChangePasswordController" id="odo-iT-jWW" customClass="ChangePasswordViewController" sceneMemberID="viewController">
@@ -61,7 +61,13 @@
                             <outlet property="delegate" destination="odo-iT-jWW" id="1ge-Ed-EHO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Change password" id="Rh2-Ti-8NW"/>
+                    <navigationItem key="navigationItem" title="Change Password" id="hNi-5N-fX3">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="e3T-ZZ-ZCw">
+                            <connections>
+                                <action selector="cancel:" destination="odo-iT-jWW" id="J5Q-sk-qgK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="currentPasswordInputField" destination="SKc-fv-geR" id="HmL-f4-SnD"/>
                         <outlet property="passwordInputField" destination="BXL-Je-vrC" id="xfJ-vn-t4V"/>

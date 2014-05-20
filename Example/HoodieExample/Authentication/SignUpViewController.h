@@ -13,4 +13,6 @@
 @property(nonatomic, assign) id <AuthenticationDelegate> authenticationDelegate;
 @property (strong, nonatomic) HOOHoodie *hoodie;
 
+-(id)initWithHoodie:(HOOHoodie *)hoodie;
+
 @end

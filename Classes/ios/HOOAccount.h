@@ -14,9 +14,11 @@
 
 - (id)initWithHoodie:(HOOHoodie *)hoodie;
 
+- (BOOL)hasAnonymousAccount;
 
 - (void)automaticallySignInExistingUser:(void (^)(BOOL existingUser, NSError *error))onFinished;
 
+- (void)anonymousSignUpOnFinished:(void (^)(BOOL signUpSuccessful, NSError *error))onSignUpFinished;
 
 - (void)signUpUserWithName: (NSString *) username
                   password: (NSString *) password
@@ -34,5 +36,6 @@
 - (void)changeOldPassword: (NSString *) oldPassword
             toNewPassword: (NSString *) newPassword
          onPasswordChange: (void (^)(BOOL passwordChangeSuccessful, NSError * error))onPasswordChangeFinished;
+
 
 @end

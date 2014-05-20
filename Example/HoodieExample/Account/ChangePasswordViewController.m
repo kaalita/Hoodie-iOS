@@ -27,6 +27,12 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+}
+
 -(void)changePassword
 {
     [self.account changeOldPassword:self.currentPasswordInputField.text
