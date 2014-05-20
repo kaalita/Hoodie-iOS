@@ -13,6 +13,8 @@
 
 SPEC_BEGIN(HOOAccountSpec)
 
+const float ktimeout = 5.0;
+
 describe(@"HOOAccount", ^{
     
     NSString *host = @"http://localhost.:6001";
@@ -64,7 +66,7 @@ describe(@"HOOAccount", ^{
                                onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                }];
             
-            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:@"joe"];
+            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@"joe"];
         });
     });
 
@@ -77,9 +79,9 @@ describe(@"HOOAccount", ^{
                                onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                }];
             
-            [[[account shouldEventuallyBeforeTimingOutAfter(2.0)] receive] signInUserWithName:@"joe"
-                                                                                     password:@"secret"
-                                                                                     onSignIn:any()];
+            [[[account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe"
+                                                                                          password:@"secret"
+                                                                                          onSignIn:any()];
         });
     });
     
@@ -100,8 +102,8 @@ describe(@"HOOAccount", ^{
                                    _signUpError = error;
                                }];
             
-            [[expectFutureValue(@(_signUpSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beFalse];
-            [[expectFutureValue(@(_signUpError.code)) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:@(HOOAccountSignUpUsernameTakenError)];
+            [[expectFutureValue(@(_signUpSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beFalse];
+            [[expectFutureValue(@(_signUpError.code)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@(HOOAccountSignUpUsernameTakenError)];
         });
     });
     
@@ -126,8 +128,8 @@ describe(@"HOOAccount", ^{
                                }];
             
             
-            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beTrue];
-            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(2.0)] beNil];
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beTrue];
+            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beNil];
         });
         
     });
@@ -150,8 +152,8 @@ describe(@"HOOAccount", ^{
                                    _signInError = error;
                                }];
             
-            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beFalse];
-            [[expectFutureValue(@(_signInError.code)) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:@(HOOAccountUnconfirmedError)];
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beFalse];
+            [[expectFutureValue(@(_signInError.code)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@(HOOAccountUnconfirmedError)];
         });
     });
 
@@ -172,8 +174,8 @@ describe(@"HOOAccount", ^{
                                    _signInError = error;
                                }];
             
-            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beFalse];
-            [[expectFutureValue(@(_signInError.code)) shouldEventuallyBeforeTimingOutAfter(2.0)] equal:@(HOOAccountSignInWrongCredentialsError)];
+            [[expectFutureValue(@(_signInSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beFalse];
+            [[expectFutureValue(@(_signInError.code)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@(HOOAccountSignInWrongCredentialsError)];
         });
     });
 
@@ -194,9 +196,9 @@ describe(@"HOOAccount", ^{
                       onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
                       }];
             
-            [[[account shouldEventuallyBeforeTimingOutAfter(2.0)] receive] signInUserWithName:@"joe@example.com"
-                                                            password:@"newSecret"
-                                                            onSignIn:any()];
+            [[[account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe@example.com"
+                                                                                          password:@"newSecret"
+                                                                                          onSignIn:any()];
         });
     });
 
@@ -217,8 +219,8 @@ describe(@"HOOAccount", ^{
                           _error = error;
                       }];
             
-            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beTrue];
-            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(2.0)] beNil];
+            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beTrue];
+            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beNil];
         });
     });
 
@@ -238,8 +240,8 @@ describe(@"HOOAccount", ^{
                           _error = error;
                       }];
             
-            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventuallyBeforeTimingOutAfter(2.0)] beFalse];
-            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(2.0)] beNonNil];
+            [[expectFutureValue(@(_passwordChangeSuccessful)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beFalse];
+            [[expectFutureValue(_error) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beNonNil];
         });
     });
   });
