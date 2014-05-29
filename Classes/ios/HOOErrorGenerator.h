@@ -13,8 +13,18 @@ typedef enum {
     HOOStoreDocumentDoesNotExistError = -105
 } HOOErrorType;
 
+
+/**
+ * A helper class that is used internally to generate the Hoodie errors
+ */
 @interface HOOErrorGenerator : NSObject
 
+/**
+ * Generates an NSError instance for the given Hoodie error type
+ *
+ * @param errorType One of the given
+ * @return NSError for the given Hoodie error type
+ */
 + (NSError *) errorWithType: (HOOErrorType) errorType;
 
 @end
