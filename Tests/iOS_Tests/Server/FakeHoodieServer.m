@@ -70,18 +70,25 @@ typedef enum {
                     
                 case HOORequestTypeGetUser:
                 {
-                    NSError *error = NULL;
-                    NSRegularExpression *usernameRegex = [NSRegularExpression regularExpressionWithPattern:@"^/_api/_users/org.couchdb.user:user/"
-                                                                                                   options:NSRegularExpressionCaseInsensitive
-                                                                                                     error:&error];
-                    
-                    NSMutableString *username = [[NSMutableString alloc] initWithString: request.URL.path];
-                    [usernameRegex replaceMatchesInString:username
-                                                  options:0
-                                                    range:NSMakeRange(0, username.length)
-                                             withTemplate:@""];
-                    
-                    return [self getUserDocumentResponseForUsername:username andHoodieID:@"uuid123"];
+                    if(self.getUserResponseType == HOOGetUserResponseTypeErrorUserNotFound)
+                    {
+                        return [self documentMissingResponse];
+                    }
+                    else
+                    {
+                        NSError *error = NULL;
+                        NSRegularExpression *usernameRegex = [NSRegularExpression regularExpressionWithPattern:@"^/_api/_users/org.couchdb.user:user/"
+                                                                                                       options:NSRegularExpressionCaseInsensitive
+                                                                                                         error:&error];
+                        
+                        NSMutableString *username = [[NSMutableString alloc] initWithString: request.URL.path];
+                        [usernameRegex replaceMatchesInString:username
+                                                      options:0
+                                                        range:NSMakeRange(0, username.length)
+                                                 withTemplate:@""];
+                        
+                        return [self getUserDocumentResponseForUsername:username andHoodieID:@"uuid123"];
+                    }
                 }
                     break;
                     
@@ -197,8 +204,25 @@ typedef enum {
     
 }
 
+-(OHHTTPStubsResponse *)documentMissingResponse
+{
+    NSDictionary *documentNotFound = @{
+                                       @"error": @"not_found",
+                                       @"reason": @"missing"
+                                       };
+    
+    NSError *error;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:documentNotFound
+                                                        options:NSJSONWritingPrettyPrinted
+                                                          error:&error];
+    
+    return [OHHTTPStubsResponse responseWithData:jsonData
+                                      statusCode:404
+                                         headers:@{@"Content-Type":@"text/json"}];
+}
+
 -(OHHTTPStubsResponse *)signInResponseForUsername:(NSString *)username
-                               andHoodieID:(NSString *)hoodieID
+                                      andHoodieID:(NSString *)hoodieID
 {
     
     switch (self.signInResponseType)

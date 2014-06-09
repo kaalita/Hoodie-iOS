@@ -8,6 +8,7 @@
 #import "HOOHelper.h"
 #import "HOOHoodie.h"
 #import "HOOErrorGenerator.h"
+#import "HOOHoodieAPIClient.h"
 
 NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 
@@ -19,6 +20,7 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
 @property(nonatomic, strong) CBLReplication *pushReplication;
 @property(nonatomic, strong) CBLReplication *pullReplication;
 @property(nonatomic, strong) CBLQuery *queryAllDocsByType;
+@property (nonatomic, strong) NSURL *remoteStoreURL;
 
 @end
 
@@ -288,6 +290,11 @@ NSString * const HOOStoreChangeNotification = @"HOOStoreChangeNotification";
     [self tearDownDatabase];
     [self setupDatabase];
     [self databaseChanged:nil];
+}
+
+-(void)setAccountDatabaseForUsername:(NSString *)username
+{
+    self.hoodie.store.remoteStoreURL = [self.hoodie.apiClient remoteStoreURLForUsername:username];
 }
 
 # pragma mark - Helper methods

@@ -5,18 +5,23 @@
 
 #import "HOOHoodie.h"
 #import "HOOHelper.h"
+#import "HOOHoodieAPIClient.h"
 
 NSString * const HOOKeyForHoodieID = @"HoodieID";
 
+@interface HOOHoodie ()
+
+@property (nonatomic, strong) HOOHoodieAPIClient *apiClient;
+
+@end
+
 @implementation HOOHoodie
 
-- (id)initWithBaseURL:(NSURL *)baseURL
+- (id)initWithBaseURLString:(NSString *)baseURLString
 {
     self = [super init];
     if (self)
     {
-        self.baseURL = [self removeTrailingSlashFromURL:baseURL];
-        
         NSString *savedHoodieID = [self savedHoodieID];
         if(savedHoodieID)
         {
@@ -27,6 +32,7 @@ NSString * const HOOKeyForHoodieID = @"HoodieID";
             self.hoodieID = [HOOHelper generateHoodieID];
         }
         
+        self.apiClient = [[HOOHoodieAPIClient alloc] initWithBaseURLString:baseURLString hoodie:self];
         self.store = [[HOOStore alloc] initWithHoodie:self];
         self.account = [[HOOAccount alloc] initWithHoodie:self];
     }
@@ -60,21 +66,6 @@ NSString * const HOOKeyForHoodieID = @"HoodieID";
 {
     _hoodieID = hoodieID;
     [self saveHoodieID];
-}
-
-- (NSURL *)removeTrailingSlashFromURL: (NSURL *) url
-{
-    NSString *urlString = url.absoluteString;
-    
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"/+$"
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-    NSString *modifiedString = [regex stringByReplacingMatchesInString:urlString
-                                                               options:0
-                                                                 range:NSMakeRange(0, [urlString length])
-                                                          withTemplate:@""];    
-    return [NSURL URLWithString:modifiedString];
 }
 
 @end

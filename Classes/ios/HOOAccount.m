@@ -4,16 +4,13 @@
 //
 
 #import "HOOAccount.h"
-#import "AFNetworking.h"
-#import "CouchbaseLite.h"
 #import "HOOHoodie.h"
+#import "HOOHoodieAPIClient.h"
 #import "HOOErrorGenerator.h"
 #import "HOOHelper.h"
 
 @interface HOOAccount ()
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager *requestManager;
-@property (nonatomic, strong) NSURLProtectionSpace *remoteDatabaseProtectionSpace;
 @property (nonatomic, strong) HOOHoodie *hoodie;
 @property (nonatomic, assign, readwrite) BOOL authenticated;
 
@@ -27,20 +24,6 @@
     if(self)
     {
         self.hoodie = hoodie;
-
-        self.remoteDatabaseProtectionSpace = [[NSURLProtectionSpace alloc] initWithHost:self.hoodie.baseURL.host
-                                                                                   port:[self.hoodie.baseURL.port integerValue]
-                                                                               protocol:self.hoodie.baseURL.scheme
-                                                                                  realm:nil
-                                                                   authenticationMethod:NSURLAuthenticationMethodHTTPDigest];
-
-        self.requestManager = [AFHTTPRequestOperationManager manager];
-        self.requestManager.requestSerializer = [AFJSONRequestSerializer serializer];
-        self.requestManager.responseSerializer = [AFJSONResponseSerializer serializer];
-
-        // Set Accept Header, otherwise CouchDB sends JSON response with content type text/plain
-        // See http://guide.couchdb.org/draft/api.html
-        [self.requestManager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     }
 
     return self;
@@ -48,13 +31,12 @@
 
 - (void)automaticallySignInExistingUser:(void (^)(BOOL existingUser, NSError *error))onFinished
 {
-   NSURLCredentialStorage *credentialStorage = [NSURLCredentialStorage sharedCredentialStorage];
-   NSURLCredential *userCredentials =  [credentialStorage defaultCredentialForProtectionSpace:self.remoteDatabaseProtectionSpace];
+    NSURLCredential *userCredentials = self.hoodie.apiClient.credential;
 
    if(userCredentials)
    {
        self.username  = userCredentials.user;
-       [self setAccountDatabase];
+       [self.hoodie.store setAccountDatabaseForUsername:self.username];
        [self signInUserWithName:userCredentials.user
                        password:userCredentials.password
                        onSignIn:^(BOOL signInSuccessful, NSError *error) {
@@ -134,86 +116,42 @@
                   password:(NSString *)password
                   onSignIn:(void (^)(BOOL signInSuccessful, NSError *error))onSignInFinished
 {
-    NSDictionary * requestOptions = @{
-            @"name": [self hoodiePrefixUsername:username],
-            @"password": password
-    };
+    [self.hoodie.apiClient signInUserWithName:username
+                                     password:password
+                                     onSignIn:^(NSString *hoodieID, NSError *error) {
+       
+                                         if(!error)
+                                         {
+                                             [self.hoodie.apiClient setCredentialUsername:username
+                                                                                 password:password];
+                                             self.hoodie.hoodieID = hoodieID;
+                                             self.username = username;
+                                             
+                                             [self.hoodie.store setAccountDatabaseForUsername:username];
+                                             
+                                             self.authenticated = YES;
+                                             onSignInFinished(YES, nil);
 
-    [self.requestManager POST:[NSString stringWithFormat:@"%@/_session", self.hoodie.baseURL]
-                   parameters:requestOptions
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-                          NSArray *roles = [responseObject valueForKey:@"roles"];
-                          NSUInteger indexOfConfirmedRole = [roles indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
-                                      return [obj isEqualToString:@"confirmed"];
-                          }];
-                          if(indexOfConfirmedRole == NSNotFound)
-                          {
-                              onSignInFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountUnconfirmedError]);
-                          }
-                          else
-                          {
-                              NSURLCredential *accountCredentials;
-                              accountCredentials = [NSURLCredential credentialWithUser:username
-                                                                     password:password
-                                                                  persistence:NSURLCredentialPersistencePermanent];
-
-                              [[NSURLCredentialStorage sharedCredentialStorage] setCredential:accountCredentials
-                                                                           forProtectionSpace:self.remoteDatabaseProtectionSpace];
-
-                              self.hoodie.hoodieID = roles[0];
-                              self.username = username;
-
-                              [self setAccountDatabase];
-
-                              self.authenticated = YES;
-                              onSignInFinished(YES, nil);
-                          }
-                      }
-                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-                          if([operation.response statusCode] == 401)
-                          {
-                              onSignInFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountSignInWrongCredentialsError]);
-                          }
-                          else
-                          {
-                              onSignInFinished(NO, error);
-                          }
-                      }
-    ];
+                                         }
+                                         else
+                                         {
+                                             onSignInFinished(NO,error);
+                                         }
+                                         
+    }];
 }
 
 - (void)signOutOnFinished:(void (^)(BOOL signOutSuccessful, NSError *error))onSignOutFinished
 {
-    [self.requestManager DELETE:[NSString stringWithFormat:@"%@/_session", self.hoodie.baseURL]
-                     parameters:@{}
-                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-                            [self.hoodie.store clearLocalData];
-                            [self clearCredentials];
-                            self.hoodie.hoodieID = [HOOHelper generateHoodieID];
-                            self.authenticated = NO;
-                            onSignOutFinished(YES, nil);
-
-                        }
-                        failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-                            NSLog(@"HOODIE - Sign out failed: %@", [error localizedDescription]);
-                            onSignOutFinished(NO, error);
-                        }];
-}
-
-- (void)clearCredentials
-{
-    NSURLCredential *credential;
-    NSDictionary *credentials;
-
-    credentials = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:self.remoteDatabaseProtectionSpace];
-    credential = [credentials.objectEnumerator nextObject];
-    [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:credential
-                                                    forProtectionSpace:self.remoteDatabaseProtectionSpace];
-
+    [self.hoodie.apiClient signOutOnFinished:^(BOOL signOutSuccessful, NSError *error) {
+       
+        [self.hoodie.store clearLocalData];
+        [self.hoodie.apiClient clearCredentials];
+        self.hoodie.hoodieID = [HOOHelper generateHoodieID];
+        self.authenticated = NO;
+        
+        onSignOutFinished(YES, error);
+    }];
 }
 
 - (void)delayedSignInWithArguments: (NSArray *) arguments
@@ -279,129 +217,51 @@
         newPassword = @"";
     }
     
-    [self fetchUserDocumentOnFinished:^(NSDictionary *userDocument, NSError *error) {
-       
-        NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
-        NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
-        
-        NSMutableDictionary *newUserDocument = [[NSMutableDictionary alloc] initWithDictionary:userDocument];
-        
-        newUserDocument[@"password"] = newPassword;
-        newUserDocument[@"updatedAt"] = [CBLJSON JSONObjectWithDate: [NSDate new]];
-        [newUserDocument removeObjectsForKeys:@[@"salt", @"password_sha"]];
-        
-        NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-        NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
-        
-        [self.requestManager PUT:pathToUser
-                      parameters:newUserDocument
-                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.hoodie.apiClient setNewPassword:newPassword
+                              forUsername:self.username
+                         onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
                              
-                             [self signInUserWithName:self.username
-                                             password:newPassword
-                                             onSignIn:^(BOOL signInSuccessful, NSError *error) {
-                                                 
-                                                 if(signInSuccessful)
-                                                 {
-                                                     onPasswordChangeFinished(YES,nil);
-                                                 }
-                                                 else
-                                                 {
-                                                     onPasswordChangeFinished(NO,error);
-                                                 }
-                                             }];
-                         }
-                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                             
-                             onPasswordChangeFinished(NO, error);
-                         }
-         ];
+                             if(passwordChangeSuccessful)
+                             {
+                                 [self signInUserWithName:self.username
+                                                 password:newPassword
+                                                 onSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                                     
+                                                     if(signInSuccessful)
+                                                     {
+                                                         onPasswordChangeFinished(YES,nil);
+                                                     }
+                                                     else
+                                                     {
+                                                         onPasswordChangeFinished(NO,error);
+                                                     }
+                                                 }];
+                             }
+                             else
+                             {
+                                 onPasswordChangeFinished(NO,error);
+                             }
     }];
 }
 
 
 #pragma mark - Helper methods
 
-- (NSString *)hoodiePrefixUsername:(NSString *)username
-{
-    return [NSString stringWithFormat:@"user/%@",username];
-}
-
-- (NSString *)userDatabaseName
-{
-    return  [NSString stringWithFormat:@"user/%@",self.hoodie.hoodieID];
-}
-
-- (void)setAccountDatabase
-{
-    NSString *userDatabaseNameURLEncoded = [[self userDatabaseName] stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-    NSString *userDatabaseURL = [NSString stringWithFormat:@"%@/%@",self.hoodie.baseURL,userDatabaseNameURLEncoded];
-    self.hoodie.store.remoteStoreURL = [NSURL URLWithString:userDatabaseURL];
-}
-
-- (void)fetchUserDocumentOnFinished:(void (^)(NSDictionary *userDocument, NSError *error))onFinished
-{
-    NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
-    NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
-    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
-    
-    [self.requestManager GET:pathToUser
-                  parameters:nil
-                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                         
-                         onFinished(operation.responseObject,nil);
-                         
-                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                         
-                         onFinished(nil, error);
-    }];
-}
-
--(NSURLCredential *)urlCredential
-{
-    NSURLCredential *credential;
-    NSDictionary *credentials;
-    
-    credentials = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:self.remoteDatabaseProtectionSpace];
-    credential = [credentials.objectEnumerator nextObject];
-    return credential;
-}
-
 - (void)changeUsername:(NSString *)newUsername
            andPassword:(NSString *)newPassword
    withCurrentPassword:(NSString *)currentPassword
       onChangeFinished:(void (^)(BOOL changeSuccessful, NSError * error))onChangeFinished
 {
-    
-    [self fetchUserDocumentOnFinished:^(NSDictionary *userDocument, NSError *error) {
-        
-        NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[self.username lowercaseString]];
-        NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
-        
-        NSMutableDictionary *newUserDocument = [[NSMutableDictionary alloc] initWithDictionary:userDocument];
-        
-        newUserDocument[@"$newUsername"] = newUsername;
-        newUserDocument[@"password"] = newPassword;
-        newUserDocument[@"updatedAt"] = [CBLJSON JSONObjectWithDate: [NSDate new]];
-        [newUserDocument removeObjectsForKeys:@[@"salt", @"password_sha"]];
-        
-        NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-        NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
-        
-        [self.requestManager PUT:pathToUser
-                      parameters:newUserDocument
-                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                             
-                             self.username = newUsername;
-                             onChangeFinished(YES,nil);
-                         }
-                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                             
-                             onChangeFinished(NO, error);
-                         }
-         ];
-    }];
+        [self.hoodie.apiClient setNewPassword:newPassword
+                                  newUsername:newUsername
+                                  forUsername:self.username onChangeFinished:^(BOOL changeSuccessful, NSError *error) {
+                                      
+                                      if(changeSuccessful)
+                                      {
+                                          self.username = newUsername;
+                                      }
+                                      onChangeFinished(changeSuccessful,error);
+        }];
 }
 
 - (void)upgradeAnonymousAccountWithUsername:(NSString *)username
@@ -409,7 +269,7 @@
                           onUpgradeFinished:(void (^)(BOOL upgradeSuccessful, NSError * error))onUpgradeFinished
 {
     
-    NSString *currentPassword = [self urlCredential].password;
+    NSString *currentPassword = self.hoodie.apiClient.credential.password;
     
     [self changeUsername:username
              andPassword:password
@@ -424,55 +284,27 @@
                            password:password
                          onFinished:(void (^)(BOOL accountCreationSuccessful, NSError * error))onFinished
 {
-    NSString *prefixedUsername = [NSString stringWithFormat:@"user/%@",[username lowercaseString]];
-    NSString *userID = [NSString stringWithFormat:@"org.couchdb.user:%@",prefixedUsername];
-    
-    NSDictionary *userDictionary = @{
-                                     @"_id": userID,
-                                     @"type": @"user",
-                                     @"name": prefixedUsername,
-                                     @"database": [self userDatabaseName],
-                                     @"roles": @[],
-                                     @"password": password,
-                                     @"hoodieId": self.hoodie.hoodieID,
-                                     @"updatedAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
-                                     @"createdAt": [CBLJSON JSONObjectWithDate: [NSDate new]],
-                                     @"signedUpAt": [CBLJSON JSONObjectWithDate: [NSDate new]]
-                                     };
-    
-    NSString *escapedUserID = [userID stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-    NSString *pathToUser = [NSString stringWithFormat:@"%@/_users/%@", self.hoodie.baseURL, escapedUserID];
-    
-    [self.requestManager PUT:pathToUser
-                  parameters:userDictionary
-                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                         
-                         NSString *couchUserID = responseObject[@"id"];
-                         NSString *returnedUsername = [couchUserID componentsSeparatedByString:@"/"][1];
-                         
-                         // Sign in user after sign up
-                         [self delayedSignInWithUsername:returnedUsername
-                                                password:password
-                                         numberOfRetries:10
-                                         onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
-                                             
-                                             [self setAccountDatabase];
-                                             onFinished(YES, nil);
-                                         }];
-                     }
-                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                         
-                         // A conflict means that the username already exists
-                         if([operation.response statusCode] == 409)
-                         {
-                             onFinished(NO, [HOOErrorGenerator errorWithType:HOOAccountSignUpUsernameTakenError]);
-                         }
-                         else
-                         {
-                             onFinished(NO, error);
-                         }
-                     }
-     ];
+    [self.hoodie.apiClient createAccountWithUsername:username
+                                            password:password
+                                          onFinished:^(NSString *username, NSError *error) {
+                                              
+                                              if(!error)
+                                              {
+                                                  [self delayedSignInWithUsername:username
+                                                                         password:password
+                                                                  numberOfRetries:10
+                                                                  onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
+                                                                      
+                                                                      [self.hoodie.store setAccountDatabaseForUsername:username];
+                                                                      onFinished(YES, nil);
+                                                                  }];
+                                              }
+                                              else
+                                              {
+                                                  onFinished(NO,error);
+                                              }
+         
+     }];
 }
 
 @end

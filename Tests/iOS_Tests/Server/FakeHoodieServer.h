@@ -22,6 +22,7 @@ typedef enum {
 typedef enum {
     HOOGetUserResponseTypeSuccessConfirmedUser = 1,
     HOOGetUserResponseTypeSuccessUnconfirmedUser = 2,
+    HOOGetUserResponseTypeErrorUserNotFound = 3
 } HOOGetUserResponseType;
 
 

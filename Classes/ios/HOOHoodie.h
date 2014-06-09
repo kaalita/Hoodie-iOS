@@ -7,13 +7,15 @@
 #import "HOOStore.h"
 #import "HOOAccount.h"
 
+@class HOOHoodieAPIClient;
+
 @interface HOOHoodie : NSObject
 
 @property(nonatomic, strong) NSString *hoodieID;
-@property(nonatomic, strong) NSURL *baseURL;
 @property(nonatomic, strong) HOOStore *store;
 @property(nonatomic, strong) HOOAccount *account;
+@property (nonatomic, readonly) HOOHoodieAPIClient *apiClient;
 
-- (id)initWithBaseURL:(NSURL *)baseURL;
+- (id)initWithBaseURLString:(NSString *)baseURLString;
 
 @end

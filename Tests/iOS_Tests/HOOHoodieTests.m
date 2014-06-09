@@ -8,22 +8,26 @@
 
 #import "Kiwi.h"
 #import "HOOHoodie.h"
+#import "HOOHoodieAPIClient.h"
 
 SPEC_BEGIN(HOOHoodieSpec)
 
 describe(@"HOOHoodie", ^{
     
     context(@"on initialization", ^{
-    
-        it(@"should store the base url", ^{
-            NSURL *baseURL = [NSURL URLWithString:@"http://couch.example.com"];
-            [[[[HOOHoodie alloc] initWithBaseURL:baseURL].baseURL should] equal:baseURL];
+
+        it(@"should store the base url and append /_api", ^{
+            
+            NSString *baseURLString = @"http://couch.example.com";
+            HOOHoodie *hoodie = [[HOOHoodie alloc] initWithBaseURLString:baseURLString];
+            [[[hoodie.apiClient.apiURL absoluteString] should] equal:[NSString stringWithFormat:@"%@/_api",baseURLString]];
         });
     
-        it(@"should remove trailing slash from passed URL", ^{
-            NSURL *baseURLWithTrailingSlash = [NSURL URLWithString:@"http://couch.example.com/"];
-            NSURL *baseURL = [NSURL URLWithString:@"http://couch.example.com"];
-            [[[[HOOHoodie alloc] initWithBaseURL:baseURLWithTrailingSlash].baseURL should] equal:baseURL];
+        it(@"should handle base url string with trailing slashes", ^{
+            
+            NSString *baseURLStringWithTrailingSlash = @"http://couch.example.com/";
+            HOOHoodie *hoodie = [[HOOHoodie alloc] initWithBaseURLString:baseURLStringWithTrailingSlash];
+            [[[hoodie.apiClient.apiURL absoluteString] should] equal:[NSString stringWithFormat:@"%@_api",baseURLStringWithTrailingSlash]];
         });
     });
 });

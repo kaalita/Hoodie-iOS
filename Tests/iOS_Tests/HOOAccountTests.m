@@ -10,6 +10,7 @@
 #import "HOOHoodie.h"
 #import "HOOErrorGenerator.h"
 #import "FakeHoodieServer.h"
+#import "HOOHoodieAPIClient.h"
 
 SPEC_BEGIN(HOOAccountSpec)
 
@@ -17,26 +18,13 @@ const float ktimeout = 5.0;
 
 describe(@"HOOAccount", ^{
     
-    NSString *host = @"http://localhost.:6001";
-    NSString *baseURL = [NSString stringWithFormat:@"%@/_api",host];
+    NSString *baseURL = @"http://localhost.:6001";
     
-    HOOHoodie *hoodie = [HOOHoodie mock];
-    [hoodie stub:@selector(baseURL) andReturn: [NSURL URLWithString: baseURL]];
-    [hoodie stub:@selector(hoodieID) andReturn:@"uuid123"];
-    [hoodie stub:@selector(setHoodieID:)];
-    
-    HOOStore *store = [HOOStore mock];
-    [store stub:@selector(setRemoteStoreURL:)];
-    [hoodie stub:@selector(store) andReturn:store];
+    HOOHoodie *hoodie = [[HOOHoodie alloc] initWithBaseURLString:baseURL];
     
     FakeHoodieServer *hoodieServer = [[FakeHoodieServer alloc] initWithSignUpResponseType:HOOSignUpResponseTypeSuccess
                                                                        signInResponseType:HOOSignInResponseTypeSuccessConfirmedUser
                                                                       getUserResponseType:HOOGetUserResponseTypeSuccessConfirmedUser];
-    __block HOOAccount *account;
-    
-    beforeEach(^{
-        account = [[HOOAccount alloc] initWithHoodie:hoodie];
-    });
     
 #pragma mark - Sign up
 
@@ -47,9 +35,9 @@ describe(@"HOOAccount", ^{
             __block BOOL _signUpSuccessful;
             __block NSError *_error = nil;
            
-            [account signUpUserWithName:@""
-                               password:@"secret"
-                               onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+            [hoodie.account signUpUserWithName:@""
+                                      password:@"secret"
+                                      onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                    
                                    _signUpSuccessful = signUpSuccessful;
                                    _error = error;
@@ -61,12 +49,12 @@ describe(@"HOOAccount", ^{
 
         it(@"should lowercase the username", ^{
             
-            [account signUpUserWithName:@"JOE"
-                               password:@"secret"
-                               onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+            [hoodie.account signUpUserWithName:@"JOE"
+                                      password:@"secret"
+                                      onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                }];
             
-            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@"joe"];
+            [[expectFutureValue(hoodie.account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:@"joe"];
         });
     });
 
@@ -74,12 +62,12 @@ describe(@"HOOAccount", ^{
         
         it(@"should sign in user", ^{
             
-            [account signUpUserWithName:@"joe"
-                               password:@"secret"
-                               onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+            [hoodie.account signUpUserWithName:@"joe"
+                                      password:@"secret"
+                                      onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                }];
             
-            [[[account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe"
+            [[[hoodie.account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe"
                                                                                           password:@"secret"
                                                                                           onSignIn:any()];
         });
@@ -94,9 +82,9 @@ describe(@"HOOAccount", ^{
             __block NSError *_signUpError;
             __block BOOL _signUpSuccessful;
             
-            [account signUpUserWithName:@"exists@example.com"
-                               password:@"secret"
-                               onSignUp:^(BOOL signUpSuccessful, NSError *error) {
+            [hoodie.account signUpUserWithName:@"exists@example.com"
+                                      password:@"secret"
+                                      onSignUp:^(BOOL signUpSuccessful, NSError *error) {
                                    
                                    _signUpSuccessful = signUpSuccessful;
                                    _signUpError = error;
@@ -119,9 +107,9 @@ describe(@"HOOAccount", ^{
             __block BOOL _signInSuccessful;
             __block NSError *_error = nil;
             
-            [account signInUserWithName:@"joe@example.com"
-                               password:@"secret"
-                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+            [hoodie.account signInUserWithName:@"joe@example.com"
+                                      password:@"secret"
+                                      onSignIn:^(BOOL signInSuccessful, NSError *error) {
                                    
                                    _signInSuccessful = signInSuccessful;
                                    _error = error;
@@ -144,9 +132,9 @@ describe(@"HOOAccount", ^{
             __block NSError *_signInError;
             __block BOOL _signInSuccessful;
             
-            [account signInUserWithName:@"joe@example.com"
-                               password:@"secret"
-                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+            [hoodie.account signInUserWithName:@"joe@example.com"
+                                      password:@"secret"
+                                      onSignIn:^(BOOL signInSuccessful, NSError *error) {
                                    
                                    _signInSuccessful = signInSuccessful;
                                    _signInError = error;
@@ -166,9 +154,9 @@ describe(@"HOOAccount", ^{
             __block NSError *_signInError;
             __block BOOL _signInSuccessful;
             
-            [account signInUserWithName:@"joe@example.com"
-                               password:@"secret"
-                               onSignIn:^(BOOL signInSuccessful, NSError *error) {
+            [hoodie.account signInUserWithName:@"joe@example.com"
+                                      password:@"secret"
+                                      onSignIn:^(BOOL signInSuccessful, NSError *error) {
                                    
                                    _signInSuccessful = signInSuccessful;
                                    _signInError = error;
@@ -189,16 +177,16 @@ describe(@"HOOAccount", ^{
             hoodieServer.signInResponseType = HOOSignInResponseTypeSuccessConfirmedUser;
             hoodieServer.getUserResponseType = HOOGetUserResponseTypeSuccessConfirmedUser;
             
-            [account stub:@selector(username) andReturn:@"joe@example.com"];
+            [hoodie.account stub:@selector(username) andReturn:@"joe@example.com"];
             
-            [account changeOldPassword:@"secret"
-                         toNewPassword:@"newSecret"
+            [hoodie.account changeOldPassword:@"secret"
+                                toNewPassword:@"newSecret"
                       onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
                       }];
             
-            [[[account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe@example.com"
-                                                                                          password:@"newSecret"
-                                                                                          onSignIn:any()];
+            [[[hoodie.account shouldEventuallyBeforeTimingOutAfter(ktimeout)] receive] signInUserWithName:@"joe@example.com"
+                                                                                                 password:@"newSecret"
+                                                                                                 onSignIn:any()];
         });
     });
 
@@ -206,14 +194,14 @@ describe(@"HOOAccount", ^{
         
         it(@"should return onPasswordChangeFinished(YES,nil)",^{
             
-            [account stub:@selector(username) andReturn:@"joe@example.com"];
+            [hoodie.account stub:@selector(username) andReturn:@"joe@example.com"];
             
             __block BOOL _passwordChangeSuccessful = NO;
             __block NSError *_error;
             
-            [account changeOldPassword:@"secret"
-                         toNewPassword:@"newSecret"
-                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+            [hoodie.account changeOldPassword:@"secret"
+                                toNewPassword:@"newSecret"
+                             onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
                           
                           _passwordChangeSuccessful = passwordChangeSuccessful;
                           _error = error;
@@ -225,16 +213,18 @@ describe(@"HOOAccount", ^{
     });
 
 
-    context(@"change password not successful", ^{
+    context(@"change password not successful", ^{        
         
         it(@"should return with error", ^{
+            
+            hoodieServer.getUserResponseType = HOOGetUserResponseTypeErrorUserNotFound;
             
             __block BOOL _passwordChangeSuccessful;
             __block NSError *_error;
             
-            [account changeOldPassword:@"secret"
-                         toNewPassword:@"newSecret"
-                      onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
+            [hoodie.account changeOldPassword:@"secret"
+                                toNewPassword:@"newSecret"
+                             onPasswordChange:^(BOOL passwordChangeSuccessful, NSError *error) {
                           
                           _passwordChangeSuccessful = passwordChangeSuccessful;
                           _error = error;
@@ -251,12 +241,12 @@ describe(@"HOOAccount", ^{
        
         it(@"should exist an anonymous account with username = hoodieID", ^{
             
-            [account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {
+            [hoodie.account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {
                 
             }];
            
-            [[expectFutureValue(@(account.hasAnonymousAccount)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beTrue];
-            [[expectFutureValue(account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:hoodie.hoodieID];
+            [[expectFutureValue(@(hoodie.account.hasAnonymousAccount)) shouldEventuallyBeforeTimingOutAfter(ktimeout)] beTrue];
+            [[expectFutureValue(hoodie.account.username) shouldEventuallyBeforeTimingOutAfter(ktimeout)] equal:hoodie.hoodieID];
         });
     });
     

@@ -11,34 +11,28 @@ extern NSString* const HOOStoreChangeNotification;
 
 @interface HOOStore : NSObject
 
-@property (nonatomic, strong) NSURL *remoteStoreURL;
+-(id)initWithHoodie:(HOOHoodie *) hoodie;
 
-- (id)initWithHoodie:(HOOHoodie *) hoodie;
+-(void)setAccountDatabaseForUsername:(NSString *)username;
 
-- (void)saveObject:(NSDictionary *)object
-          withType:(NSString *)type
-            onSave:(void (^)(NSDictionary *savedObject, NSError * error))onSaveFinished;
+-(void)saveObject:(NSDictionary *)object
+        withType:(NSString *)type
+        onSave:(void (^)(NSDictionary *savedObject, NSError * error))onSaveFinished;
 
-- (void)updateObjectWithID:(NSString *)objectID
-                   andType:(NSString *)type
-            withProperties:(NSDictionary *)properties
-                  onUpdate:(void (^)(NSDictionary *updatedObject, NSError * error))onUpdateFinished;
+-(void)updateObjectWithID:(NSString *)objectID
+                  andType:(NSString *)type
+           withProperties:(NSDictionary *)properties
+                 onUpdate:(void (^)(NSDictionary *updatedObject, NSError * error))onUpdateFinished;
 
-- (void)removeObjectWithID:(NSString *)objectID
-                   andType:(NSString *)type
-                 onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished;
+-(void)removeObjectWithID:(NSString *)objectID
+                  andType:(NSString *)type
+                onRemoval:(void (^)(BOOL removalSuccessful, NSError * error))onRemovalFinished;
 
-- (void)clearLocalData;
+-(void)clearLocalData;
 
-// Finding objects
+-(NSDictionary *)findObjectWithID:(NSString *)objectID
+                        andType:(NSString *)type;
 
-- (NSDictionary *)findObjectWithID:(NSString *)objectID
-                           andType:(NSString *)type;
-
-- (NSArray *)findAllObjectsWithType:(NSString *)type;
-
-
-
-
+-(NSArray *)findAllObjectsWithType:(NSString *)type;
 
 @end
