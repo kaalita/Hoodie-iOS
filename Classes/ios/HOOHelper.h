@@ -5,9 +5,15 @@
 
 #import <Foundation/Foundation.h>
 
-
+/**
+ * Class with some general helper methods
+ */
 @interface HOOHelper : NSObject
 
+/**
+ * Generates a Hoodie conform ID.
+ * @return a Hoodie conform ID
+ */
 + (NSString *) generateHoodieID;
 
 @end
