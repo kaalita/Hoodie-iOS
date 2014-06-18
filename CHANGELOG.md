@@ -21,3 +21,10 @@ Also:
 - Now also works on 64bit architecture
 - Update to Couchbase Lite 1.0-beta3.1
 - New feature: Anonymous signup
+
+##0.2.2
+
+- Updated to Couchbase Lite 1.0
+- Bugfix: removed duplicate creation of replications
+- Code documentation
+- Code Refactoring (moved all CouchDB/Hoodie API related code into a separate class HOOHoodieAPIClient)

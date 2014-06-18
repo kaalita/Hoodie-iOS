@@ -1,0 +1,2 @@
+PODS_IOS_TESTS_HOOHOODIE_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/../../Frameworks"
+PODS_IOS_TESTS_HOOHOODIE_OTHER_LDFLAGS = -weak_library /usr/lib/libz.dylib -framework CouchbaseLite
