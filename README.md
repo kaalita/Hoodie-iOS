@@ -47,11 +47,8 @@ To get started with Hoodie-iOS, first install the Hoodie Server and create and s
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // This is the URL of the Hoodie API, after you started your Hoodie app
-    NSURL *baseURL = [NSURL URLWithString:@"http://localhost:6001/_api"];
-    
-    // Create new Hoodie instance with URL to your Hoodie API
-    self.hoodie = [[HOOHoodie alloc] initWithBaseURL:baseURL];
+    // Create new Hoodie instance with URL to Hoodie
+    self.hoodie =[[HOOHoodie alloc] initWithBaseURLString:@"http://localhost:6001"];
 }
 ```
 
