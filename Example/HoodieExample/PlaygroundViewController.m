@@ -70,19 +70,8 @@
 
     [self.hoodie.account automaticallySignInExistingUser:^(BOOL existingUser, NSError *error) {
         
-        [SVProgressHUD dismiss];
-        
-        if(existingUser)
-        {
-            [self updateSignInStateDependentElements];
-        }
-        else
-        {
-            [self.hoodie.account anonymousSignUpOnFinished:^(BOOL signUpSuccessful, NSError *error) {
-               
-                [self updateSignInStateDependentElements];
-            }];
-        }
+        [SVProgressHUD dismiss];        
+        [self updateSignInStateDependentElements];
     }];
 }
 
