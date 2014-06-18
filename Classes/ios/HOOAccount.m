@@ -295,7 +295,6 @@
                                                                   numberOfRetries:10
                                                                   onDelayedSignIn:^(BOOL signInSuccessful, NSError *error) {
                                                                       
-                                                                      [self.hoodie.store setAccountDatabaseForUsername:username];
                                                                       onFinished(YES, nil);
                                                                   }];
                                               }
