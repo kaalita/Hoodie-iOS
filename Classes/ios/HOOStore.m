@@ -4,7 +4,7 @@
 //
 
 #import "HOOStore.h"
-#import "CouchbaseLite.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 #import "HOOHelper.h"
 #import "HOOHoodie.h"
 #import "HOOErrorGenerator.h"

@@ -9,7 +9,7 @@
 #import "HOOHoodieAPIClient.h"
 #import "AFNetworking.h"
 #import "HOOHoodie.h"
-#import "CouchbaseLite.h"
+#import <CouchbaseLite/CouchbaseLite.h>
 #import "HOOErrorGenerator.h"
 
 @interface HOOHoodieAPIClient ()

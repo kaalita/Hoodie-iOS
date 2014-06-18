@@ -20,7 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSString *baseURLString = @"http://localhost.:6001/";
+    NSString *baseURLString = @"http://localhost:6001/";
     self.hoodie = [[HOOHoodie alloc] initWithBaseURLString:baseURLString];
     
     PlaygroundViewController *playgroundViewController;
