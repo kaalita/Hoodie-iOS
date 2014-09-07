@@ -1,2 +1,0 @@
-PODS_IOS_TESTS_COUCHBASE_LITE_IOS_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/couchbase-lite-ios/cblite_ios_1.0-38/64-bit"
-PODS_IOS_TESTS_COUCHBASE_LITE_IOS_OTHER_LDFLAGS = -lsqlite3 -lz -framework CFNetwork -framework CouchbaseLite -framework Security -framework SystemConfiguration

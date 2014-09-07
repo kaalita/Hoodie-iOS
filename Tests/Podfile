@@ -1,7 +1,4 @@
-platform :ios, :deployment_target => '6.0'
+pod "HOOHoodie", :path => "../HOOHoodie.podspec"
 
-target :iOS_Tests, :exclusive => true do
-  pod 'Kiwi/XCTest'
-  pod 'OHHTTPStubs'
-  pod "HOOHoodie", :path => "../HOOHoodie.podspec"
-end
+pod 'OHHTTPStubs'
+pod 'Kiwi/XCTest', '< 2.3'

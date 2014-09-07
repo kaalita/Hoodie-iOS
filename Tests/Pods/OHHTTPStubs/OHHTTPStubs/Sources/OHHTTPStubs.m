@@ -177,7 +177,7 @@ static NSTimeInterval const kSlotTime = 0.25; // Must be >0. We will send a chun
         Class protoCls = OHHTTPStubsProtocol.class;
         if (enable && ![urlProtocolClasses containsObject:protoCls])
         {
-            [urlProtocolClasses addObject:protoCls];
+            [urlProtocolClasses insertObject:protoCls atIndex:0];
         }
         else if (!enable && [urlProtocolClasses containsObject:protoCls])
         {
@@ -486,7 +486,7 @@ typedef struct {
                                timingInfo:timingInfo completion:completion];
             });
         } else {
-            uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t*)*chunkSizeToRead);
+            uint8_t* buffer = (uint8_t*)malloc(sizeof(uint8_t)*chunkSizeToRead);
             NSInteger bytesRead = [inputStream read:buffer maxLength:chunkSizeToRead];
             if (bytesRead > 0)
             {

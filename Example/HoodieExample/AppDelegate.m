@@ -20,7 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSString *baseURLString = @"http://localhost:6001/";
+    // Change is URL to the location of your Hoodie Server
+    NSString *baseURLString = @"http://127.0.0.1:6004";
     self.hoodie = [[HOOHoodie alloc] initWithBaseURLString:baseURLString];
     
     PlaygroundViewController *playgroundViewController;

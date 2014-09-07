@@ -8,6 +8,7 @@
 #import "HOOHoodieAPIClient.h"
 #import "HOOErrorGenerator.h"
 #import "HOOHelper.h"
+#import "SSKeychain.h"
 
 @interface HOOAccount ()
 
@@ -15,6 +16,8 @@
 @property (nonatomic, assign, readwrite) BOOL authenticated;
 
 @end
+
+static NSString *hoodieService = @"HOOHoodie";
 
 @implementation HOOAccount
 
@@ -29,24 +32,35 @@
     return self;
 }
 
-- (void)automaticallySignInExistingUser:(void (^)(BOOL existingUser, NSError *error))onFinished
+- (void)automaticallySignInExistingUser:(void (^)(BOOL, NSError *))onFinished
 {
-    NSURLCredential *userCredentials = self.hoodie.apiClient.credential;
-
-   if(userCredentials)
-   {
-       self.username  = userCredentials.user;
-       [self.hoodie.store setAccountDatabaseForUsername:self.username];
-       [self signInUserWithName:userCredentials.user
-                       password:userCredentials.password
-                       onSignIn:^(BOOL signInSuccessful, NSError *error) {
-                            onFinished(YES, error);
-                       }];
-   }
+    NSString *username;
+    NSString *password;
+    
+    NSDictionary *account = [SSKeychain accountsForService:hoodieService].firstObject;
+    if(account)
+    {
+        username = account[@"acct"];
+        password = [SSKeychain passwordForService:hoodieService account:username];
+    }
+    
+    if(username && password)
+    {
+        [self signInUserWithName:username password:password onSignIn:^(BOOL signInSuccessful, NSError *error) {
+            if(error)
+            {
+                onFinished(YES,error);
+            }
+            else
+            {
+                onFinished(YES,nil);
+            }
+        }];
+    }
     else
-   {
-        onFinished(NO, nil);
-   }
+    {
+        onFinished(NO,nil);
+    }
 }
 
 - (void)anonymousSignUpOnFinished:(void (^)(BOOL signUpSuccessful, NSError *error))onSignUpFinished
@@ -122,8 +136,8 @@
        
                                          if(!error)
                                          {
-                                             [self.hoodie.apiClient setCredentialUsername:username
-                                                                                 password:password];
+                                             [self saveLoginDataUsername:username password:password];
+                                             
                                              self.hoodie.hoodieID = hoodieID;
                                              self.username = username;
                                              
@@ -144,9 +158,9 @@
 - (void)signOutOnFinished:(void (^)(BOOL signOutSuccessful, NSError *error))onSignOutFinished
 {
     [self.hoodie.apiClient signOutOnFinished:^(BOOL signOutSuccessful, NSError *error) {
-       
+    
+        [SSKeychain deletePasswordForService:hoodieService account:self.username];
         [self.hoodie.store clearLocalData];
-        [self.hoodie.apiClient clearCredentials];
         self.hoodie.hoodieID = [HOOHelper generateHoodieID];
         self.authenticated = NO;
         
@@ -247,6 +261,11 @@
 
 #pragma mark - Helper methods
 
+- (void)saveLoginDataUsername:(NSString *)username password:(NSString *)password
+{
+    [SSKeychain setPassword:password forService:@"HOOHoodie" account:username];
+}
+
 - (void)changeUsername:(NSString *)newUsername
            andPassword:(NSString *)newPassword
    withCurrentPassword:(NSString *)currentPassword
@@ -268,12 +287,9 @@
                                    password:(NSString *)password
                           onUpgradeFinished:(void (^)(BOOL upgradeSuccessful, NSError * error))onUpgradeFinished
 {
-    
-    NSString *currentPassword = self.hoodie.apiClient.credential.password;
-    
     [self changeUsername:username
              andPassword:password
-     withCurrentPassword:currentPassword
+     withCurrentPassword:@""
         onChangeFinished:^(BOOL changeSuccessful, NSError *error) {
          
             onUpgradeFinished(changeSuccessful, error);

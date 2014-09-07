@@ -67,7 +67,6 @@
     self.navigationItem.title = @"Hoodie";
 
     [SVProgressHUD showWithStatus:@"Loading" maskType:SVProgressHUDMaskTypeBlack];
-
     [self.hoodie.account automaticallySignInExistingUser:^(BOOL existingUser, NSError *error) {
         
         [SVProgressHUD dismiss];        

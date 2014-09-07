@@ -1,0 +1,2 @@
+PODS_HOOHOODIE_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/../../Frameworks"
+PODS_HOOHOODIE_OTHER_LDFLAGS = -weak_library /usr/lib/libz.dylib -framework CouchbaseLite

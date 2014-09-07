@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) HOOHoodie *hoodie;
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestManager;
-@property (nonatomic, strong) NSURLProtectionSpace *remoteDatabaseProtectionSpace;
 
 @end
 
@@ -33,12 +32,6 @@
         self.apiURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/_api",url]];
         
         [self setupRequestManager];
-        
-        self.remoteDatabaseProtectionSpace = [[NSURLProtectionSpace alloc] initWithHost:self.apiURL.host
-                                                                                   port:[self.apiURL.port integerValue]
-                                                                               protocol:self.apiURL.scheme
-                                                                                  realm:nil
-                                                                   authenticationMethod:NSURLAuthenticationMethodHTTPDigest];
     }
     
     return self;
@@ -104,6 +97,8 @@
     [self.requestManager POST:[NSString stringWithFormat:@"%@/_session", self.apiURL]
                    parameters:requestOptions
                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+                          [self storeAuthenticationCookieFromResponse:operation.response];
                           
                           NSArray *roles = [responseObject valueForKey:@"roles"];
                           NSUInteger indexOfConfirmedRole = [roles indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -239,41 +234,6 @@
     return [NSURL URLWithString:userDatabaseURLString];
 }
 
-#pragma mark - Credential
-
-- (NSURLCredential *)credential
-{
-    NSURLCredential *credential;
-    NSDictionary *credentials;
-    
-    credentials = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:self.remoteDatabaseProtectionSpace];
-    credential = [credentials.objectEnumerator nextObject];
-    return credential;   
-}
-
--(void)setCredentialUsername:(NSString *)username password:(NSString *)password
-{
-    NSURLCredential *accountCredentials;
-    accountCredentials = [NSURLCredential credentialWithUser:username
-                                                    password:password
-                                                 persistence:NSURLCredentialPersistencePermanent];
-    
-    [[NSURLCredentialStorage sharedCredentialStorage] setCredential:accountCredentials
-                                                 forProtectionSpace:self.remoteDatabaseProtectionSpace];
-}
-
-- (void)clearCredentials
-{
-    NSURLCredential *credential;
-    NSDictionary *credentials;
-    
-    credentials = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:self.remoteDatabaseProtectionSpace];
-    credential = [credentials.objectEnumerator nextObject];
-    [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:credential
-                                                    forProtectionSpace:self.remoteDatabaseProtectionSpace];
-    
-}
-
 #pragma mark - Helper methods
 
 -(void)setupRequestManager
@@ -282,9 +242,20 @@
     self.requestManager.requestSerializer = [AFJSONRequestSerializer serializer];
     self.requestManager.responseSerializer = [AFJSONResponseSerializer serializer];
     
+    self.requestManager.shouldUseCredentialStorage = NO;
+    
     // Set Accept Header, otherwise CouchDB sends JSON response with content type text/plain
     // See http://guide.couchdb.org/draft/api.html
     [self.requestManager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+}
+
+-(void)storeAuthenticationCookieFromResponse:(NSHTTPURLResponse *)response
+{
+    NSArray* cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:self.apiURL];
+    for (NSHTTPCookie* cookie in cookies)
+    {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
 }
 
 - (NSString *)hoodiePrefixUsername:(NSString *)username

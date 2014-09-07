@@ -13,15 +13,9 @@
 @interface HOOHoodieAPIClient : NSObject
 
 @property (nonatomic, strong) NSURL *apiURL;
-@property (nonatomic, readonly) NSURLCredential *credential;
 
 - (id)initWithBaseURLString:(NSString *)baseURLString
                      hoodie:(HOOHoodie *)hoodie;
-
--(void)setCredentialUsername:(NSString *)username
-                    password:(NSString *)password;
-
--(void)clearCredentials;
 
 -(NSURL *)remoteStoreURLForUsername:(NSString *)username;
 
